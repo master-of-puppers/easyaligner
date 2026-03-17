@@ -12,11 +12,28 @@ cache: true
 conda:
     environment: easywhisperer
 resources:
-    ../_assets/tale_two_cities_ch01.txt
-    ../_assets/tale_two_cities_paragraph01.txt
+    - ../_assets/taleoftwocities_01_dickens_64kb_align.json
 ---
 
 TODO: Use shorter text for the tutorial that can just be pasted in the example. 
+
+## Installation
+
+### With GPU support
+
+```bash
+pip install easyaligner --extra-index-url https://download.pytorch.org/whl/cu128
+```
+
+### Using uv
+
+When installing with [uv](https://docs.astral.sh/uv/), it will select the appropriate PyTorch version automatically (CPU for macOS, CUDA for Linux/Windows/ARM):
+
+```bash
+uv pip install easyaligner
+```
+
+## Usage
 
 ```{python}
 #| output: false
@@ -84,25 +101,28 @@ pipeline(
     end_wildcard=True,
     blank_id=processor.tokenizer.pad_token_id,
     word_boundary="|",
-    output_vad_dir="output/vad",
-    output_emissions_dir="output/emissions",
-    output_alignments_dir="output/alignments",
-    save_json=True,
-    save_msgpack=False,
-    return_alignments=False,
 )
 ```
 
-<div id="transcript-container" class="transcript-container transcript-card"></div>
+### Demo
 
-a  
+The text transcript below the audio player is highlighted in sync with the words spoken in the audio.
 
+<div id="audio-player" class="audio-card">
+  <div class="audio-card-label">Sample audio</div>
+  <div class="audio-card-title"><em>A Tale of Two Cities</em> — Chapter 1 (LibriVox)</div>
+  <audio controls>
+    <source src="https://huggingface.co/datasets/Lauler/easytranscriber_tutorials/resolve/main/tale-of-two-cities_align-en/taleoftwocities_01_dickens_64kb_align.mp3"
+    type="audio/mpeg">
+  </audio>
+</div>
+
+<div id="transcript-container" class="transcript-container transcript-card" data-highlight-sentence="false"></div>
+
+::: {.column-margin}
 ::: {.callout-tip}
-This is a tip.
+You can click anywhere in the text to jump to that point in the audio. The text is also highlighted when you drag the audio slider!
+:::
 :::
 
-::: {.callout-important}
-This is important!
-:::
-
-<script src="transcript.js"></script>
+<script src="demo.js"></script>

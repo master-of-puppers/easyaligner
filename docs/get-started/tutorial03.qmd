@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: Locate text in audio and align"
+title: "Tutorial: Locate audio region corresponding to text, and align"
 format:
   html:
     embed-resources: false
