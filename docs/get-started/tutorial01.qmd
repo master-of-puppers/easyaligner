@@ -22,9 +22,15 @@ For this tutorial, we will be using:
 * An audio recording of the first chapter of "A Tale of Two Cities", read by Paul Adams ([LibriVox](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/)).
 * The corresponding [text](https://www.gutenberg.org/cache/epub/98/pg98.txt) from [Project Gutenberg](https://www.gutenberg.org/ebooks/98).  
 
+::: {.callout-note title="Scenario"}
+A text transcript that (roughly) covers everything that is spoken in the audio. 
+
+![](../_assets/scenario_full_coverage.svg)
+:::
+
 ## Download text and audio
 
-Let's begin by downloading the book and using a regular expression to extract the first chapter's text.
+Let's begin with downloading the book from Project Gutenberg, followed by using a regular expression to extract the first chapter's text.
 
 ```{python}
 import re
@@ -41,7 +47,7 @@ match = re.search(
 text = match.group().strip()
 ```
 
-For reference, here's the text of the first chapter, before we move on to aligning it with the audio:
+Before we move on to forced alignment, here's the text of the first chapter for reference: 
 
 ::: {.transcript-card .transcript-container}
 ```{python}
@@ -65,7 +71,7 @@ snapshot_download(
 )
 ```
 
-Here's the audio we'll be working with:
+Here's the audio we'll be aligning with the text:
 
 <div class="audio-card">
   <div class="audio-card-label">Sample audio</div>
@@ -78,4 +84,4 @@ Here's the audio we'll be working with:
 
 ## Align text and audio
 
-The process for aligning the text and audio looks similar to the simple example in the [overview](overview.qmd) tutorial. 
+The process for aligning the text and audio looks similar to the simple quick-start example in the [overview](overview.qmd) section. This time around we will be aligning the entire first chapter of A Tale of Two Cities, as opposed to only the first paragraph. 
