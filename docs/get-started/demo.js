@@ -7,7 +7,7 @@ const alignmentMap = [];
 let prevWord = null;
 let prevAlignment = null;
 
-fetch("../_assets/taleoftwocities_01_dickens_64kb_align.json")
+fetch(container.dataset.src)
   .then((r) => r.json())
   .then((data) => {
     data.speeches.forEach((speech) => {

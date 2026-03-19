@@ -10,7 +10,7 @@ reference-location: margin
 freeze: auto
 cache: true
 conda:
-    environment: easywhisperer
+    environment: easywhisper
 resources:
     - ../_assets/taleoftwocities_01_dickens_64kb_align.json
 ---
@@ -117,7 +117,7 @@ The text transcript below the audio player is highlighted in sync with the words
   </audio>
 </div>
 
-<div id="transcript-container" class="transcript-container transcript-card" data-highlight-sentence="false"></div>
+<div id="transcript-container" class="transcript-container transcript-card" data-highlight-sentence="false" data-src="../_assets/taleoftwocities_01_dickens_64kb_align.json"></div>
 
 ::: {.column-margin}
 ::: {.callout-tip}

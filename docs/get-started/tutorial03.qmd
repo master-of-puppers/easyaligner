@@ -10,7 +10,7 @@ reference-location: margin
 freeze: auto
 cache: true
 conda:
-    environment: easywhisperer
+    environment: easywhisper
 resources:
     ../_assets/tale_two_cities_ch01.txt
 ---
