@@ -7,7 +7,7 @@ const alignmentMap = [];
 let prevWord = null;
 let prevAlignment = null;
 
-fetch("../_assets/taleoftwocities_01_dickens_64kb_align.json")
+fetch(container.dataset.src)
   .then((r) => r.json())
   .then((data) => {
     data.speeches.forEach((speech) => {
@@ -49,8 +49,8 @@ fetch("../_assets/taleoftwocities_01_dickens_64kb_align.json")
           end: alignment.end,
         });
 
-        // No trailing whitespace signals a paragraph break
-        if (!alignment.text.endsWith(" ")) {
+        // Double newline signals a paragraph break
+        if (/\r?\n\r?\n/.test(alignment.text)) {
           container.appendChild(para);
           para = document.createElement("p");
           para.className = "chunk";
@@ -71,6 +71,9 @@ function updateHighlight() {
   if (curWord && curWord.el !== prevWord) {
     if (prevWord) prevWord.classList.remove("highlight-word");
     curWord.el.classList.add("highlight-word");
+    if (audioPlayer.paused) {
+      curWord.el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
     prevWord = curWord.el;
   }
 
