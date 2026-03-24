@@ -16,22 +16,24 @@ resources:
     - ../_assets/taleoftwocities_01_dickens_64kb_trimmed.json
 ---
 
-This tutorial will demonstrate the most straightforward case for aligning text and audio. It assumes we have access to a transcript that covers everything spoken in the audio.  
+This tutorial will demonstrate the most straightforward case for aligning text and audio. It assumes we have access to a transcript that corresponds to everything spoken in the audio.  
 
-For this tutorial, we will be using:
+For the tutorial, we will be using:
 
 * An audio recording of the first chapter of "A Tale of Two Cities", read by Paul Adams ([LibriVox](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/)).
-* The corresponding [text](https://www.gutenberg.org/cache/epub/98/pg98.txt) from [Project Gutenberg](https://www.gutenberg.org/ebooks/98).  
+* The corresponding ebook [text](https://www.gutenberg.org/cache/epub/98/pg98.txt) from [Project Gutenberg](https://www.gutenberg.org/ebooks/98).  
+
+`easyaligner` can handle some extra speech at the beginning and end of the audio with its `start_wildcard` and `end_wildcard` arguments. For best results, however, the transcript should cover as much of the spoken audio as possible.
 
 ::: {.callout-note title="Scenario"}
-A text transcript that (roughly) covers everything that is spoken in the audio. 
+A text transcript that covers (almost) everything that is spoken in the audio.
 
-![](../_assets/scenario_full_coverage.svg)
+![](../_assets/scenario_full_coverage.svg){width="100%"}
 :::
 
 ## Download text and audio
 
-Let's begin with downloading the book from Project Gutenberg, followed by using a regular expression to extract the first chapter's text.
+Let's begin with downloading the book from Project Gutenberg, and then apply a regular expression to extract the first chapter's text.
 
 ```{python}
 import re
@@ -48,7 +50,7 @@ match = re.search(
 text = match.group().strip()
 ```
 
-Before we move on to forced alignment, here's the text of the first chapter for reference: 
+Before we move on to forced alignment, here's the text of the first chapter for reference. Note especially the paragraph breaks and punctuation. One of `easyaligner`'s main features is that it will retain the formatting of the original text after alignment. 
 
 ::: {.transcript-card .transcript-container}
 ```{python}
@@ -58,7 +60,7 @@ print(text)
 ```
 :::
 
-Next, we download the audio and save it to disk.
+Next, we download the audio of the first chapter and save it to disk.
 
 ```{python}
 #| output: false
@@ -85,7 +87,7 @@ Here's the audio we'll be aligning with the text:
 
 ## Align text and audio
 
-The process for aligning the text and audio looks similar to the simple quick-start example in the [overview](overview.qmd) section. This time around we will be aligning the entire first chapter of A Tale of Two Cities, as opposed to only the first paragraph. 
+The process for aligning the text and audio looks similar to the simple example in the [overview](overview.qmd) section. This time around, however, we will be aligning the entire first chapter of A Tale of Two Cities, as opposed to only the first paragraph. 
 
 ```{python}
 # | output: false
@@ -135,7 +137,13 @@ pipeline(
 )
 ```
 
-## Result
+::: {.callout-tip}
+A list of suitable emission models for different languages can be found in the [WhisperX library](https://github.com/m-bain/whisperX/blob/d8a078eed46b139f90d7f33b472119e9be9ff969/whisperx/alignment.py#L41-L77).
+
+If your audio and transcript are multilingual, you can try using the Massively Multilingual Speech model from Meta: [mms-1b-all](https://huggingface.co/facebook/mms-1b-all). 
+:::
+
+## Result: Force aligned output
 
 The text transcript below the audio player is highlighted in sync with the words spoken in the audio.
 

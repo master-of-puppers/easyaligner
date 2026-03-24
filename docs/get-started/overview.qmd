@@ -104,6 +104,12 @@ pipeline(
 )
 ```
 
+::: {.callout-note title="SpeechSegment"}
+[`SpeechSegments`](../reference/SpeechSegment.qmd) allow specifying regions of the audio to be processed independently. 
+
+They help target specific sections of the audio to be aligned, and preserve semantic structure and information for things like parliamentary speeches or audiobook chapters. 
+:::
+
 ### Demo
 
 The text transcript below the audio player is highlighted in sync with the words spoken in the audio.
