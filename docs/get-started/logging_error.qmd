@@ -1,0 +1,53 @@
+---
+title: Logging and error handling
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+lightbox: true
+reference-location: margin
+freeze: auto
+cache: true
+conda:
+    environment: easywhisper
+---
+
+## Logging and Error Handling
+### Enabling Logging
+
+To see progress and error messages one can add the following logging configuration at the start of a script:
+
+```python
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s | %(name)s | %(levelname)s | %(message)s'
+    # handlers=[
+    #     logging.FileHandler('easyaligner.log'), # Log to a file
+    #     logging.StreamHandler()  # Also print to console
+    # ]
+)
+```
+
+### Error Handling
+
+`easyaligner` pipelines use PyTorch DataLoaders for efficient parallel processing and prefetching of data. During processing, the library silently skips files that fail to load (corrupted audio, missing file, etc.). The errors are logged with full traceback, the pipeline however continues processing the remaining files. 
+
+`easyaligner` leaves it up the user to decide how to handle these failed files (retry, validate inputs, etc.).
+
+::: {.callout-tip}
+Track which files failed after processing completes by comparing output:
+
+```python
+from pathlib import Path
+
+# After pipeline completes, check which files produced output
+output_files = list(Path("output/vad").rglob("*.json"))
+output_stems = {f.stem for f in output_files}
+
+# Find files that failed (no output produced)
+failed = [p for p in audio_paths if Path(p).stem not in output_stems]
+```
+:::

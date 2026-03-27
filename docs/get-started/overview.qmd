@@ -15,7 +15,9 @@ resources:
     - ../_assets/taleoftwocities_01_dickens_64kb_align.json
 ---
 
-TODO: Use shorter text for the tutorial that can just be pasted in the example. 
+`easyaligner` is a forced alignment library for time-alignment of speech and text. Given a text transcript, `easyaligner` will help identify where each word or phrase was spoken in the audio.  
+
+The library supports aligning from both ground-truth transcripts, as well as from ASR model outputs. 
 
 ## Installation
 

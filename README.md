@@ -30,43 +30,65 @@ uv pip install easyaligner
 
 ## Usage
 
+The example below downloads a short snippet from a LibriVox audiobook recording of [A Tale of Two Cities](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/). The snippet is 57 seconds long, and corresponds to the first paragraph of the first chapter of A Tale of Two Cities. The corresponding text to be used for alignment is directly supplied below and assigned to the `text` variable. 
+
 ```python
+from pathlib import Path
+
 from transformers import (
     AutoModelForCTC,
     Wav2Vec2Processor,
 )
+from huggingface_hub import snapshot_download
 
+from easyaligner.text import load_tokenizer
 from easyaligner.data.datamodel import SpeechSegment
 from easyaligner.pipelines import pipeline
-from easyaligner.text.normalization import (
-    SpanMapNormalizer,
-    text_normalizer,
-)
-from easyaligner.text.tokenizer import load_tokenizer
+from easyaligner.text import text_normalizer
 from easyaligner.vad.pyannote import load_vad_model
 
-text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+snapshot_download(
+    "Lauler/easytranscriber_tutorials",
+    repo_type="dataset",
+    local_dir="data/tutorials",
+    allow_patterns="tale-of-two-cities_align-en/*", 
+)
+
+text = """
+It was the best of times, it was the worst of times, it was the age of
+wisdom, it was the age of foolishness, it was the epoch of belief, it
+was the epoch of incredulity, it was the season of Light, it was the
+season of Darkness, it was the spring of hope, it was the winter of
+despair, we had everything before us, we had nothing before us, we were
+all going direct to Heaven, we were all going direct the other way--in
+short, the period was so far like the present period, that some of its
+noisiest authorities insisted on its being received, for good or for
+evil, in the superlative degree of comparison only.
 """
 
-tokenizer = load_tokenizer(language="swedish") # sentence tokenizer 
 text = text.strip()
-span_list = list(tokenizer.span_tokenize(text)) # start, end character indices for each sentence
 
+# The alignments will be organized according to how the text is tokenized
+tokenizer = load_tokenizer(language="english") # sentence tokenizer 
+span_list = list(tokenizer.span_tokenize(text)) # start, end character indices for each sentence
 speeches = [[SpeechSegment(speech_id=0, text=text, text_spans=span_list, start=None, end=None)]]
 
+# Load models and run pipeline
 model_vad = load_vad_model()
 model = (
-    AutoModelForCTC.from_pretrained("KBLab/wav2vec2-large-voxrex-swedish").to("cuda").half()
+    AutoModelForCTC.from_pretrained("facebook/wav2vec2-base-960h").to("cuda").half()
 )
-processor = Wav2Vec2Processor.from_pretrained("KBLab/wav2vec2-large-voxrex-swedish")
+processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
+
+# File(s) to align
+audio_files = [file.name for file in Path("data/tutorials/tale-of-two-cities_align-en").glob("*")]
 
 pipeline(
     vad_model=model_vad,
     emissions_model=model,
     processor=processor,
-    audio_paths=["audio/statsminister.wav"],
-    audio_dir="data",
+    audio_paths=audio_files,
+    audio_dir="data/tutorials/tale-of-two-cities_align-en",
     speeches=speeches,
     alignment_strategy="speech",
     text_normalizer_fn=text_normalizer,
@@ -75,14 +97,11 @@ pipeline(
     end_wildcard=True,
     blank_id=processor.tokenizer.pad_token_id,
     word_boundary="|",
-    output_vad_dir="output/vad",
-    output_emissions_dir="output/emissions",
-    output_alignments_dir="output/alignments",
-    save_json=True,
-    save_msgpack=False,
-    return_alignments=False,
 )
 ```
+
+> [!INFO]
+> `easyaligner` allows organizing the output at any level of granularity the user wishes (sentence, paragraph, or other), provided start and end character indices are provided for the boundaries of the desired segments. In the above example, we use an `nltk.tokenize.punkt.PunktTokenizer` to sentence tokenize our text. The `.span_tokenize()` method returns `(start, end)` character indices for each sentence, which we pass as `text_spans` to the `SpeechSegment` objects that are to be aligned.  
 
 ## Outputs
 
@@ -98,43 +117,4 @@ output
 The `output/emissions` directory will, in addition to the JSON files, also contain output emissions for each JSON file in `.npy` format.  
 
 All intermediate files can safely be deleted, assuming there is no need to re-run the pipeline from a specific intermediate stage. 
-
-## Logging and Error Handling
-
-### Enabling Logging
-
-To see progress and error messages one can add the following logging configuration at the start of a script:
-
-```python
-import logging
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(name)s | %(levelname)s | %(message)s'
-    # handlers=[
-    #     logging.FileHandler('easyaligner.log'), # Log to a file
-    #     logging.StreamHandler()  # Also print to console
-    # ]
-)
-```
-
-### Error Handling
-
-`easyaligner` pipelines use PyTorch DataLoaders for efficient parallel processing and prefetching of data. During processing, the library silently skips files that fail to load (corrupted audio, missing file, etc.). The errors are logged with full traceback, the pipeline however continues processing the remaining files. 
-
-`easyaligner` leaves it up the user to decide how to handle failed files (retry, validate inputs, etc.).
-
-> [!TIP]  
-> Track which files failed after processing completes by comparing output:
-
-```python
-from pathlib import Path
-
-# After pipeline completes, check which files produced output
-output_files = list(Path("output/vad").rglob("*.json"))
-output_stems = {f.stem for f in output_files}
-
-# Find files that failed (no output produced)
-failed = [p for p in audio_paths if Path(p).stem not in output_stems]
-```
 

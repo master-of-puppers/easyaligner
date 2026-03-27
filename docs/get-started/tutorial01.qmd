@@ -50,7 +50,7 @@ match = re.search(
 text = match.group().strip()
 ```
 
-Before we move on to forced alignment, here's the text of the first chapter for reference. Note especially the paragraph breaks and punctuation. One of `easyaligner`'s main features is that it will retain the formatting of the original text after alignment. 
+Before we move on to forced alignment, here's the text of the first chapter for reference. Note especially the paragraph breaks and punctuation. One of `easyaligner`'s main features is that it will retain the original text's formatting after alignment. 
 
 ::: {.transcript-card .transcript-container}
 ```{python}

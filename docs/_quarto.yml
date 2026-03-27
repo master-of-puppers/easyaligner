@@ -25,6 +25,7 @@ website:
       contents:
         - get-started/overview.qmd
         - get-started/tutorial01.qmd
+        - get-started/logging_error.qmd
   open-graph: 
     title: "easyaligner: Forced Alignment Made Easy"
     description: 
