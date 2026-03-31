@@ -78,8 +78,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1322038f0c9ba0e9bcec026253594650.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-0002be465bd7c897c5bc84573d818de6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e80e455ca97fc560e123d4a47cd97cfc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-48e620a296ebc17c2f793153ecec44c6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -344,7 +344,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../get-started/tutorial01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial: Align text and audio</span></a>
+ <span class="menu-text">Tutorial 1: Simple case</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/tutorial02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 2: Known audio region</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/tutorial03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 3: Unknown audio region</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/logging_error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging and error handling</span></a>
   </div>
 </li>
     </ul>
@@ -362,10 +380,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#with-gpu-support" id="toc-with-gpu-support" class="nav-link" data-scroll-target="#with-gpu-support">With GPU support</a></li>
   <li><a href="#using-uv" id="toc-using-uv" class="nav-link" data-scroll-target="#using-uv">Using uv</a></li>
   </ul></li>
-  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a>
-  <ul class="collapse">
-  <li><a href="#demo" id="toc-demo" class="nav-link" data-scroll-target="#demo">Demo</a></li>
-  </ul></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#results-force-aligned-output" id="toc-results-force-aligned-output" class="nav-link" data-scroll-target="#results-force-aligned-output">Results: Force aligned output</a></li>
+  <li><a href="#schema" id="toc-schema" class="nav-link" data-scroll-target="#schema">Schema</a></li>
   </ul>
 </nav>
     </div>
@@ -392,7 +409,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>TODO: Use shorter text for the tutorial that can just be pasted in the example.</p>
+<p><code>easyaligner</code> is a forced alignment library, aligning text transcripts to audio with precise word-level timestamps. The output can be segmented at any level of granularity (sentence, paragraph, etc.) while preserving the original text’s formatting.</p>
+<p>The library supports aligning from both ground-truth transcripts, as well as from ASR model outputs. See the library <a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a> for an example of <code>easyaligner</code> being used to align ASR outputs.</p>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
 <section id="with-gpu-support" class="level3">
@@ -407,6 +425,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="usage" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>Below is a minimal example of the simplest alignment scenario: a text transcript that covers the full audio. <a href="../get-started/tutorial01.html">Tutorial 1</a> demonstrates the same scenario in more detail.</p>
+<p>The example below uses a 57-second snippet from a LibriVox recording of <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">A Tale of Two Cities</a>, corresponding to the first paragraph of Chapter I. The text used for alignment is assigned directly to the <code>text</code> variable as a string.</p>
 <div id="ddffccde" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -474,6 +494,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    word_boundary<span class="op">=</span><span class="st">"|"</span>,</span>
 <span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+
+<div class="no-row-height column-margin column-container"><div class="">
 <div class="callout callout-style-default callout-note callout-titled" title="SpeechSegment">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -484,12 +506,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="../reference/SpeechSegment.html"><code>SpeechSegments</code></a> allow specifying regions of the audio to be processed independently.</p>
-<p>They help target specific sections of the audio to be aligned, and preserve semantic structure and information for things like parliamentary speeches or audiobook chapters.</p>
+<p><a href="../reference/SpeechSegment.html"><code>SpeechSegments</code></a> allow specifying regions of the audio to be processed independently.<br>
+<br> You can find out more about how it’s used in <a href="../get-started/tutorial02.html">Tutorial 2</a> and <a href="../get-started/tutorial03.html">Tutorial 3</a>.</p>
 </div>
 </div>
-<section id="demo" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="demo">Demo</h3>
+</div></div><p>We recommend checking out the tutorials, for more advanced use cases.</p>
+<ul>
+<li><a href="../get-started/tutorial01.html">Tutorial 1: Align text and audio</a>: text transcript covers all the spoken content in the audio.</li>
+<li><a href="../get-started/tutorial02.html">Tutorial 2: Known audio region</a>: text covers only part of the spoken content in the audio. But we know the relevant audio region in advance.</li>
+<li><a href="../get-started/tutorial03.html">Tutorial 3: Locate relevant audio region</a>: text covers only part of spoken content in the audio, and we don’t know the relevant audio region in advance.</li>
+</ul>
+</section>
+<section id="results-force-aligned-output" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="results-force-aligned-output">Results: Force aligned output</h2>
 <p>The text transcript below the audio player is highlighted in sync with the words spoken in the audio.</p>
 <div id="audio-player" class="audio-card">
 <div class="audio-card-label">
@@ -519,9 +548,63 @@ Tip
 </div>
 </div>
 </div></div><script src="demo.js"></script>
-
-
 </section>
+<section id="schema" class="level2">
+<h2 class="anchored" data-anchor-id="schema">Schema</h2>
+<p>See the <a href="../reference/index.html#data-models">reference</a> page for a detailed overview of the data models. Below is a simplified schema of the output after forced alignment of the quick-start example.</p>
+<div style="max-height: 460px; overflow-y: auto;">
+<pre><code>AudioMetadata
+├── audio_path       "taleoftwocities_01_dickens_64kb_align.mp3"
+├── sample_rate      16000
+├── duration         57.519
+├── metadata         null
+└── speeches[]
+    └── SpeechSegment
+        ├── speech_id       0
+        ├── start           1.769
+        ├── end             57.052
+        ├── text            "It was the best of times, it was the worst of
+        │                    times, it was the age of wisdom..."
+        ├── text_spans      [(0, 612)]          ← one span: the paragraph is a single sentence (no full stops)
+        ├── duration        55.283
+        ├── audio_frames    884520
+        ├── probs_path      "taleoftwocities_01_dickens_64kb_align/0.npy"
+        ├── metadata        null
+        │
+        ├── chunks[]                            ← VAD segments
+        │   ├── [0] AudioChunk
+        │   │   ├── start         1.769
+        │   │   ├── end           28.162
+        │   │   ├── duration      26.393
+        │   │   ├── audio_frames  422280
+        │   │   └── num_logits    1319
+        │   └── [1] AudioChunk
+        │       ├── start         29.039
+        │       ├── end           57.052
+        │       ├── duration      28.013
+        │       ├── audio_frames  448200
+        │       └── num_logits    1400
+        │
+        └── alignments[]                        ← segment-level, with word timestamps
+            └── [0] AlignmentSegment
+                ├── id            "0-0"
+                ├── start         4.972
+                ├── end           56.992
+                ├── duration      52.020
+                ├── score         0.975
+                ├── text          "It was the best of times, it was the worst of
+                │                  times, it was the age of wisdom..."
+                └── words[]
+                    ├── { text: "It ",      start: 4.972,  end: 5.052,  score: 0.631 }
+                    ├── { text: "was ",     start: 6.673,  end: 6.773,  score: 1.000 }
+                    ├── { text: "the ",     start: 6.853,  end: 6.953,  score: 0.920 }
+                    ├── { text: "best ",    start: 7.273,  end: 7.594,  score: 1.000 }
+                    ├── { text: "of ",      start: 7.734,  end: 7.774,  score: 1.000 }
+                    ├── { text: "times, ",  start: 7.894,  end: 8.574,  score: 0.969 }
+                    └── ... (119 words total)</code></pre>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

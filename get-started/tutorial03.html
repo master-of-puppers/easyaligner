@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tutorial: Locate audio region corresponding to text, and align – easyaligner</title>
+<title>Tutorial 3: Unknown audio region – easyaligner</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -78,8 +78,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1322038f0c9ba0e9bcec026253594650.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-0002be465bd7c897c5bc84573d818de6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e80e455ca97fc560e123d4a47cd97cfc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-48e620a296ebc17c2f793153ecec44c6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -117,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta property="og:site_name" content="easyaligner">
 </head>
 
-<body class="nav-fixed quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating nav-fixed slimcontent quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -295,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../get-started/overview.html"> 
+    <a class="nav-link active" href="../get-started/overview.html" aria-current="page"> 
 <span class="menu-text">Get Started</span></a>
   </li>  
   <li class="nav-item">
@@ -318,21 +321,78 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../get-started/tutorial03.html">Tutorial 3: Unknown audio region</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/tutorial01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 1: Simple case</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/tutorial02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 2: Known audio region</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/tutorial03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Tutorial 3: Unknown audio region</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/logging_error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging and error handling</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#download-text-and-audio" id="toc-download-text-and-audio" class="nav-link active" data-scroll-target="#download-text-and-audio">Download text and audio</a></li>
+  <li><a href="#step-1-transcribe-the-full-audio" id="toc-step-1-transcribe-the-full-audio" class="nav-link" data-scroll-target="#step-1-transcribe-the-full-audio">Step 1: Transcribe the full audio</a></li>
+  <li><a href="#step-2-locate-chapter-ii-with-fuzzy-matching" id="toc-step-2-locate-chapter-ii-with-fuzzy-matching" class="nav-link" data-scroll-target="#step-2-locate-chapter-ii-with-fuzzy-matching">Step 2: Locate Chapter II with fuzzy matching</a></li>
+  <li><a href="#step-3-align-text-and-audio" id="toc-step-3-align-text-and-audio" class="nav-link" data-scroll-target="#step-3-align-text-and-audio">Step 3: Align text and audio</a></li>
+  <li><a href="#result-force-aligned-output" id="toc-result-force-aligned-output" class="nav-link" data-scroll-target="#result-force-aligned-output">Result: Force aligned output</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tutorial: Locate audio region corresponding to text, and align</h1>
+<h1 class="title">Tutorial 3: Unknown audio region</h1>
 </div>
 
 
@@ -349,22 +409,235 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="acca4cb3" class="cell" data-execution_count="2">
+<p>This tutorial covers the case where you have a text transcript that represents only <em>part</em> of an audio file, and you do not know at which timestamps the transcript begins and ends.</p>
+<p>Our strategy will be the following:</p>
+<ol type="1">
+<li><strong>Transcribe</strong> the full audio automatically using ASR, producing word-level timestamps for everything spoken.</li>
+<li><strong>Locate</strong> the ground-truth text within the ASR transcription using fuzzy text matching.</li>
+<li><strong>Align</strong> the ground-truth text to the discovered audio region using forced alignment.</li>
+</ol>
+<p>For the tutorial, we will use:</p>
+<ul>
+<li>An audio recording spanning the first four chapters of “A Tale of Two Cities”, read by Bob Neufeld (<a href="https://librivox.org/tale-of-two-cities-by-charles-dickens-3/">LibriVox</a>).</li>
+<li>The text for Chapter II only, extracted from the <a href="https://www.gutenberg.org/ebooks/98">Project Gutenberg ebook</a>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Scenario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scenario
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A text transcript covering only part of the spoken content in the audio. The transcript’s location within the audio is <strong>unknown</strong>.</p>
+<p><a href="../_assets/scenario_partial_unknown.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="../_assets/scenario_partial_unknown.svg" class="img-fluid" style="width:100.0%"></a></p>
+</div>
+</div>
+<section id="download-text-and-audio" class="level2">
+<h2 class="anchored" data-anchor-id="download-text-and-audio">Download text and audio</h2>
+<p>We start by extracting the Chapter II text from Project Gutenberg.</p>
+<div id="9cd9f3d9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://www.gutenberg.org/cache/epub/98/pg98.txt"</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>full_text <span class="op">=</span> requests.get(url).text</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Chapter I text</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Chapter II text (between "CHAPTER II. The Mail" and "CHAPTER III.")</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> re.search(</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=CHAPTER I</span><span class="ch">\.\r\n</span><span class="vs">The Period</span><span class="ch">\r\n</span><span class="kw">)</span><span class="pp">[</span><span class="dv">\s\S</span><span class="pp">]</span><span class="op">+?</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">CHAPTER II</span><span class="ch">\.</span><span class="ex">)</span><span class="vs">"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"</span><span class="kw">(</span><span class="fu">?&lt;</span><span class="vs">=CHAPTER II</span><span class="ch">\.\r\n</span><span class="vs">The Mail</span><span class="ch">\r\n</span><span class="kw">)</span><span class="pp">[</span><span class="dv">\s\S</span><span class="pp">]</span><span class="op">+?</span><span class="ex">(</span><span class="fu">?=</span><span class="vs">CHAPTER III</span><span class="ch">\.</span><span class="ex">)</span><span class="vs">"</span>,</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    full_text,</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> match.group().strip()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Next, we download the multi-chapter audio file.</p>
+<div id="7341658e" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> snapshot_download</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>filepath_pattern <span class="op">=</span> <span class="st">"tale-of-two-cities_long-en/taleoftwocities_01_dickens_128kb.mp3"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>snapshot_download(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lauler/easytranscriber_tutorials"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    repo_type<span class="op">=</span><span class="st">"dataset"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    local_dir<span class="op">=</span><span class="st">"data/tutorials"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    allow_patterns<span class="op">=</span>filepath_pattern,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>filepath <span class="op">=</span> Path(<span class="st">"data/tutorials"</span>) <span class="op">/</span> filepath_pattern</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>audio_dir <span class="op">=</span> filepath.parent</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>audio_files <span class="op">=</span> [filepath.name]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="step-1-transcribe-the-full-audio" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-transcribe-the-full-audio">Step 1: Transcribe the full audio</h2>
+<p>Because we do not know where Chapter II begins and ends, we first transcribe the entire audio file. This gives us word-level timestamps for everything spoken — including the chapters we don’t care about.</p>
+<div id="8dfa1583" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.text <span class="im">import</span> load_tokenizer</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easytranscriber.pipelines <span class="im">import</span> pipeline <span class="im">as</span> transcription_pipeline</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easytranscriber.text.normalization <span class="im">import</span> text_normalizer <span class="im">as</span> easytranscriber_text_normalizer</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> load_tokenizer(language<span class="op">=</span><span class="st">"english"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>transcription_pipeline(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    vad_model<span class="op">=</span><span class="st">"pyannote"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    emissions_model<span class="op">=</span><span class="st">"facebook/wav2vec2-base-960h"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    transcription_model<span class="op">=</span><span class="st">"distil-whisper/distil-large-v3.5"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    audio_paths<span class="op">=</span>audio_files,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    audio_dir<span class="op">=</span><span class="bu">str</span>(audio_dir),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    backend<span class="op">=</span><span class="st">"ct2"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    language<span class="op">=</span><span class="st">"en"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    tokenizer<span class="op">=</span>tokenizer,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    text_normalizer_fn<span class="op">=</span>easytranscriber_text_normalizer,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    cache_dir<span class="op">=</span><span class="st">"models"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The transcription output is written to <code>output/alignments/</code>. We read it back as an <code>AudioMetadata</code> object:</p>
+<div id="4677abd7" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.data.utils <span class="im">import</span> read_json</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>alignment_json <span class="op">=</span> Path(<span class="st">"output/alignments"</span>) <span class="op">/</span> filepath.with_suffix(<span class="st">".json"</span>).name</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>audio_meta <span class="op">=</span> read_json(alignment_json)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="step-2-locate-chapter-ii-with-fuzzy-matching" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-locate-chapter-ii-with-fuzzy-matching">Step 2: Locate Chapter II with fuzzy matching</h2>
+<p>With ASR word-level timestamps in hand, we search for Chapter II’s ground-truth text within the transcription. <code>fuzzy_match</code> handles this in one call: it concatenates all word segments into a haystack and uses <a href="https://github.com/maxbachmann/RapidFuzz"><code>rapidfuzz</code></a> to find the best matching region.</p>
+<div id="b01c3abb" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.text <span class="im">import</span> fuzzy_match</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> fuzzy_match(needle<span class="op">=</span>text, haystack<span class="op">=</span>audio_meta.speeches)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> match <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Could not find Chapter II in the transcription. Try lowering the threshold."</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Match score:    </span><span class="sc">{</span>match<span class="sc">.</span>score<span class="sc">:.1f}</span><span class="ss"> / 100"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Match indices (word-level):  </span><span class="sc">{</span>match<span class="sc">.</span>start_index<span class="sc">}</span><span class="ss"> (start) – </span><span class="sc">{</span>match<span class="sc">.</span>end_index<span class="sc">}</span><span class="ss"> (end)"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Match timestamps: </span><span class="sc">{</span>match<span class="sc">.</span>start<span class="sc">:.1f}</span><span class="ss">s – </span><span class="sc">{</span>match<span class="sc">.</span>end<span class="sc">:.1f}</span><span class="ss">s"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Match score:    92.8 / 100
+Match indices (word-level):  1054 (start) – 3080 (end)
+Match timestamps: 424.8s – 1197.2s</code></pre>
+</div>
+</div>
+<p>The returned <code>FuzzyMatch</code> object carries the discovered timestamps (<code>match.start</code>, <code>match.end</code>) as well as the word-level indices into the transcription for finer-grained inspection.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To inspect the matched words, pass <code>return_words=True</code>. This can be useful for debugging and sanity checking.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>match, words <span class="op">=</span> fuzzy_match(needle<span class="op">=</span>text, haystack<span class="op">=</span>audio_meta.speeches, return_words<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the first and last matched words</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(words[match.start_index])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(words[match.end_index])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="step-3-align-text-and-audio" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-align-text-and-audio">Step 3: Align text and audio</h2>
+<p>With approximate start and end times discovered, we run forced alignment using the ground-truth text. This produces precise word-level timestamps tied to the original text formatting, as in <a href="../get-started/tutorial01.html">Tutorial 1</a>.</p>
+<div id="ddce98b6" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCTC, Wav2Vec2Processor</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.data.datamodel <span class="im">import</span> SpeechSegment</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.pipelines <span class="im">import</span> pipeline</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.text <span class="im">import</span> text_normalizer</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.vad.pyannote <span class="im">import</span> load_vad_model</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>span_list <span class="op">=</span> <span class="bu">list</span>(tokenizer.span_tokenize(text))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>speeches <span class="op">=</span> [</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        SpeechSegment(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>            speech_id<span class="op">=</span><span class="st">"chapter-ii"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span>text,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>            text_spans<span class="op">=</span>span_list,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>            start<span class="op">=</span>match.start,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            end<span class="op">=</span>match.end,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>model_vad <span class="op">=</span> load_vad_model()</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForCTC.from_pretrained(<span class="st">"facebook/wav2vec2-base-960h"</span>).to(<span class="st">"cuda"</span>).half()</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>processor <span class="op">=</span> Wav2Vec2Processor.from_pretrained(<span class="st">"facebook/wav2vec2-base-960h"</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>pipeline(</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    vad_model<span class="op">=</span>model_vad,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    emissions_model<span class="op">=</span>model,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    processor<span class="op">=</span>processor,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    audio_paths<span class="op">=</span>audio_files,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    audio_dir<span class="op">=</span>audio_dir,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    speeches<span class="op">=</span>speeches,</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    alignment_strategy<span class="op">=</span><span class="st">"speech"</span>,</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    text_normalizer_fn<span class="op">=</span>text_normalizer,</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    tokenizer<span class="op">=</span>tokenizer,</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    start_wildcard<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    end_wildcard<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    blank_id<span class="op">=</span>processor.tokenizer.pad_token_id,</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    word_boundary<span class="op">=</span><span class="st">"|"</span>,</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>start_wildcard=True</code> and <code>end_wildcard=True</code> allow the forced aligner to tolerate a small amount of extra speech at the region boundaries. Useful here because the fuzzy match returns approximate rather than exact timestamps.</p>
+</div>
+</div>
+<p>The aligned output is written to <code>output/alignments/</code> with sentence-level segments and word-level timestamps, tied to the original Chapter II text.</p>
+</section>
+<section id="result-force-aligned-output" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="result-force-aligned-output">Result: Force aligned output</h2>
+<p>The text transcript below the audio player is highlighted in sync with the words spoken in the audio.</p>
+<p>The fuzzy match located Chapter II starting at approximately 7:05 in the recording. The text will only be highlighted when the audio slider is within that region.</p>
+<div id="audio-player" class="audio-card">
+<div class="audio-card-label">
+Sample audio
+</div>
+<div class="audio-card-title">
+<em>A Tale of Two Cities</em> — Chapters 1–4 (LibriVox)
+</div>
+<p><audio controls=""> <source src="https://huggingface.co/datasets/Lauler/easytranscriber_tutorials/resolve/main/tale-of-two-cities_long-en/taleoftwocities_01_dickens_128kb.mp3" type="audio/mpeg"> </audio></p>
+</div>
+<div id="transcript-container" class="transcript-container transcript-card" data-highlight-sentence="true" data-src="../_assets/taleoftwocities_01_dickens_128kb_unknown.json">
+
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can click anywhere in the text to jump to that point in the audio. The text is also highlighted when you drag the audio slider!</p>
+</div>
+</div>
+</div></div><script src="demo.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -781,6 +1054,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

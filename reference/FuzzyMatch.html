@@ -78,8 +78,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1322038f0c9ba0e9bcec026253594650.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-0002be465bd7c897c5bc84573d818de6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e80e455ca97fc560e123d4a47cd97cfc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-48e620a296ebc17c2f793153ecec44c6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -417,6 +417,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reference/match.fuzzy_match.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">match.fuzzy_match</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reference/tokenizer.load_tokenizer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">tokenizer.load_tokenizer</span></a>
   </div>
@@ -528,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>FuzzyMatch</h1>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data.datamodel.FuzzyMatch()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Result of a fuzzy text match.</p>
-<p>A <code>FuzzyMatch</code> contains the word indices and confidence score of the best match found between a needle (ground truth text) and a haystack (concatenated word texts from ASR output).</p>
+<p>A <code>FuzzyMatch</code> contains the word indices, timestamps, and confidence score of the best match found between a needle (ground truth text) and a haystack (concatenated word texts from ASR output).</p>
 <section id="attributes" class="level2 doc-section doc-section-attributes">
 <h2 class="doc-section doc-section-attributes anchored" data-anchor-id="attributes">Attributes</h2>
 <table class="caption-top table">
@@ -559,6 +565,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>score</td>
 <td>float</td>
 <td>Fuzzy match score on a 0-100 scale, as returned by rapidfuzz.</td>
+</tr>
+<tr class="even">
+<td>start</td>
+<td>float</td>
+<td>Start time of the match in seconds.</td>
+</tr>
+<tr class="odd">
+<td>end</td>
+<td>float</td>
+<td>End time of the match in seconds.</td>
 </tr>
 </tbody>
 </table>
