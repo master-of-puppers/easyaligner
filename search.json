@@ -44,6 +44,17 @@
     ]
   },
   {
+    "objectID": "get-started/overview.html#outputs",
+    "href": "get-started/overview.html#outputs",
+    "title": "Overview",
+    "section": "Outputs",
+    "text": "Outputs\nBy default, easyaligner outputs a JSON file for each stage of the pipeline (VAD, emissions, forced alignment). The final aligned output can be found in output/alignments. The directory structure will look as follows:\noutput\n├── vad          ← SpeechSegments with AudioChunks (VAD boundaries)\n├── emissions    ← + emission file paths (.npy)\n└── alignments   ← + AlignmentSegments with word timestamps\n\nReading the output\nLet’s read the final aligned output and print one of the aligned segments. We can use a convenience function from easyaligner that reads the file as an AudioMetadata object.\n\nfrom easyaligner.data.utils import read_json\nfrom pprint import pprint\n\nresults = read_json(\"output/alignments/taleoftwocities_01_dickens_64kb_trimmed.json\")\n# Print the 3rd aligned segment of the first speech\npprint(results.speeches[0].alignments[3].to_dict())\n\n{'duration': 3.80269,\n 'end': 84.1674,\n 'id': '0-3',\n 'score': 0.96526,\n 'start': 80.36471,\n 'text': 'It was the year of Our Lord one thousand seven hundred and '\n         'seventy-five.\\r\\n',\n 'words': [WordSegment(text='It ', start=80.36471, end=80.40474, score=1.0),\n           WordSegment(text='was ', start=80.44477, end=80.54484, score=0.9584),\n           WordSegment(text='the ', start=80.58487, end=80.66492, score=0.93115),\n           WordSegment(text='year ', start=80.70495, end=80.90509, score=0.99642),\n           WordSegment(text='of ', start=80.98515, end=81.04519, score=0.89388),\n           WordSegment(text='Our ', start=81.16528, end=81.26535, score=0.98242),\n           WordSegment(text='Lord ', start=81.34541, end=81.56556, score=0.9928),\n           WordSegment(text='one ', start=81.72567, end=81.82574, score=0.99453),\n           WordSegment(text='thousand ', start=81.92582, end=82.34611, score=0.98317),\n           WordSegment(text='seven ', start=82.42617, end=82.68635, score=0.89331),\n           WordSegment(text='hundred ', start=82.76641, end=83.06662, score=0.94355),\n           WordSegment(text='and ', start=83.12667, end=83.18671, score=0.99154),\n           WordSegment(text='seventy-five.\\r\\n', start=83.28678, end=84.1674, score=0.98717)]}",
+    "crumbs": [
+      "Get Started",
+      "Overview"
+    ]
+  },
+  {
     "objectID": "get-started/overview.html#schema",
     "href": "get-started/overview.html#schema",
     "title": "Overview",

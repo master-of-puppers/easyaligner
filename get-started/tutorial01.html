@@ -68,6 +68,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../get-started/tutorial02.html" rel="next">
+<link href="../get-started/overview.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -431,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="download-text-and-audio" class="level2">
 <h2 class="anchored" data-anchor-id="download-text-and-audio">Download text and audio</h2>
 <p>Let’s begin with downloading the book from Project Gutenberg, and then apply a regular expression to extract the first chapter’s text.</p>
-<div id="6b787310" class="cell" data-execution_count="2">
+<div id="f7e80a2a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -455,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>All these things, and a thousand like them, came to pass in and close upon the dear old year one thousand seven hundred and seventy-five. Environed by them, while the Woodman and the Farmer worked unheeded, those two of the large jaws, and those other two of the plain and the fair faces, trod with stir enough, and carried their divine rights with a high hand. Thus did the year one thousand seven hundred and seventy-five conduct their Greatnesses, and myriads of small creatures–the creatures of this chronicle among the rest–along the roads that lay before them.</p>
 </div>
 <p>Next, we download the audio of the first chapter and save it to disk.</p>
-<div id="868a2f62" class="cell" data-execution_count="4">
+<div id="83fae853" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> snapshot_download</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>snapshot_download(</span>
@@ -479,7 +481,7 @@ Sample audio
 <section id="align-text-and-audio" class="level2">
 <h2 class="anchored" data-anchor-id="align-text-and-audio">Align text and audio</h2>
 <p>The process for aligning the text and audio looks similar to the simple example in the <a href="../get-started/overview.html">overview</a> section. This time around, however, we will be aligning the entire first chapter of A Tale of Two Cities, as opposed to only the first paragraph.</p>
-<div id="12b0fb9c" class="cell" data-execution_count="5">
+<div id="b7761b83" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> (</span>
@@ -989,6 +991,18 @@ Tip
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../get-started/overview.html" class="pagination-link" aria-label="Overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../get-started/tutorial02.html" class="pagination-link" aria-label="Tutorial 2: Known audio region">
+        <span class="nav-page-text">Tutorial 2: Known audio region</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 (function() {
