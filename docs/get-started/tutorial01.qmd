@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: Align text and audio"
+title: "Tutorial 1: Simple case"
 format:
   html:
     embed-resources: false

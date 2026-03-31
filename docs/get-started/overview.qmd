@@ -15,9 +15,9 @@ resources:
     - ../_assets/taleoftwocities_01_dickens_64kb_align.json
 ---
 
-`easyaligner` is a forced alignment library for time-alignment of speech and text. Given a text transcript, `easyaligner` will help identify where each word or phrase was spoken in the audio.  
+`easyaligner` is a forced alignment library, aligning text transcripts to audio with precise word-level timestamps. The output can be segmented at any level of granularity (sentence, paragraph, etc.) while preserving the original text's formatting.
 
-The library supports aligning from both ground-truth transcripts, as well as from ASR model outputs. 
+The library supports aligning from both ground-truth transcripts, as well as from ASR model outputs. See the library [`easytranscriber`](https://kb-labb.github.io/easytranscriber/) for an example of `easyaligner` being used to align ASR outputs. 
 
 ## Installation
 
@@ -36,6 +36,10 @@ uv pip install easyaligner
 ```
 
 ## Usage
+
+Below is a minimal example of the simplest alignment scenario: a text transcript that covers the full audio. [Tutorial 1](tutorial01.qmd) demonstrates the same scenario in more detail. 
+
+The example below uses a 57-second snippet from a LibriVox recording of [A Tale of Two Cities](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/), corresponding to the first paragraph of Chapter I. The text used for alignment is assigned directly to the `text` variable as a string.
 
 ```{python}
 #| output: false
@@ -106,13 +110,22 @@ pipeline(
 )
 ```
 
+::: {.column-margin}
 ::: {.callout-note title="SpeechSegment"}
-[`SpeechSegments`](../reference/SpeechSegment.qmd) allow specifying regions of the audio to be processed independently. 
-
-They help target specific sections of the audio to be aligned, and preserve semantic structure and information for things like parliamentary speeches or audiobook chapters. 
+[`SpeechSegments`](../reference/SpeechSegment.qmd) allow specifying regions of the audio to be processed independently.  
+<br>
+You can find out more about how it's used in [Tutorial 2](tutorial02.qmd) and [Tutorial 3](tutorial03.qmd).
+:::
 :::
 
-### Demo
+We recommend checking out the tutorials, for more advanced use cases.
+
+* [Tutorial 1: Align text and audio](tutorial01.qmd): text transcript covers all the spoken content in the audio.
+* [Tutorial 2: Known audio region](tutorial02.qmd): text covers only part of the spoken content in the audio. But we know the relevant audio region in advance. 
+* [Tutorial 3: Locate relevant audio region](tutorial03.qmd): text covers only part of spoken content in the audio, and we don't know the relevant audio region in advance. 
+
+
+## Results: Force aligned output
 
 The text transcript below the audio player is highlighted in sync with the words spoken in the audio.
 
@@ -134,3 +147,61 @@ You can click anywhere in the text to jump to that point in the audio. The text 
 :::
 
 <script src="demo.js"></script>
+
+## Schema
+
+See the [reference](../reference/index.qmd#data-models) page for a detailed overview of the data models. Below is a simplified schema of the output after forced alignment of the quick-start example.
+
+::: {style="max-height: 460px; overflow-y: auto;"}
+```
+AudioMetadata
+├── audio_path       "taleoftwocities_01_dickens_64kb_align.mp3"
+├── sample_rate      16000
+├── duration         57.519
+├── metadata         null
+└── speeches[]
+    └── SpeechSegment
+        ├── speech_id       0
+        ├── start           1.769
+        ├── end             57.052
+        ├── text            "It was the best of times, it was the worst of
+        │                    times, it was the age of wisdom..."
+        ├── text_spans      [(0, 612)]          ← one span: the paragraph is a single sentence (no full stops)
+        ├── duration        55.283
+        ├── audio_frames    884520
+        ├── probs_path      "taleoftwocities_01_dickens_64kb_align/0.npy"
+        ├── metadata        null
+        │
+        ├── chunks[]                            ← VAD segments
+        │   ├── [0] AudioChunk
+        │   │   ├── start         1.769
+        │   │   ├── end           28.162
+        │   │   ├── duration      26.393
+        │   │   ├── audio_frames  422280
+        │   │   └── num_logits    1319
+        │   └── [1] AudioChunk
+        │       ├── start         29.039
+        │       ├── end           57.052
+        │       ├── duration      28.013
+        │       ├── audio_frames  448200
+        │       └── num_logits    1400
+        │
+        └── alignments[]                        ← segment-level, with word timestamps
+            └── [0] AlignmentSegment
+                ├── id            "0-0"
+                ├── start         4.972
+                ├── end           56.992
+                ├── duration      52.020
+                ├── score         0.975
+                ├── text          "It was the best of times, it was the worst of
+                │                  times, it was the age of wisdom..."
+                └── words[]
+                    ├── { text: "It ",      start: 4.972,  end: 5.052,  score: 0.631 }
+                    ├── { text: "was ",     start: 6.673,  end: 6.773,  score: 1.000 }
+                    ├── { text: "the ",     start: 6.853,  end: 6.953,  score: 0.920 }
+                    ├── { text: "best ",    start: 7.273,  end: 7.594,  score: 1.000 }
+                    ├── { text: "of ",      start: 7.734,  end: 7.774,  score: 1.000 }
+                    ├── { text: "times, ",  start: 7.894,  end: 8.574,  score: 0.969 }
+                    └── ... (119 words total)
+```
+:::

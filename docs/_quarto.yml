@@ -25,6 +25,8 @@ website:
       contents:
         - get-started/overview.qmd
         - get-started/tutorial01.qmd
+        - get-started/tutorial02.qmd
+        - get-started/tutorial03.qmd
         - get-started/logging_error.qmd
   open-graph: 
     title: "easyaligner: Forced Alignment Made Easy"
@@ -82,6 +84,7 @@ quartodoc:
         - name: normalization.SpanMapNormalizer
           children: separate
         - normalization.text_normalizer
+        - match.fuzzy_match
         - tokenizer.load_tokenizer
     - title: Datasets and I/O
       desc: 
