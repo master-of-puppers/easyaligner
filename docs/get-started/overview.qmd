@@ -148,6 +148,30 @@ You can click anywhere in the text to jump to that point in the audio. The text 
 
 <script src="demo.js"></script>
 
+## Outputs
+
+By default, `easyaligner` outputs a JSON file for each stage of the pipeline (VAD, emissions, forced alignment). The final aligned output can be found in `output/alignments`. The directory structure will look as follows:
+
+```
+output
+├── vad          ← SpeechSegments with AudioChunks (VAD boundaries)
+├── emissions    ← + emission file paths (.npy)
+└── alignments   ← + AlignmentSegments with word timestamps
+```
+
+### Reading the output
+
+Let's read the final aligned output and print one of the aligned segments. We can use a convenience function from `easyaligner` that reads the file as an [`AudioMetadata`](../reference/AudioMetadata.qmd) object.
+
+```{python}
+from easyaligner.data.utils import read_json
+from pprint import pprint
+
+results = read_json("output/alignments/taleoftwocities_01_dickens_64kb_trimmed.json")
+# Print the 3rd aligned segment of the first speech
+pprint(results.speeches[0].alignments[3].to_dict())
+```
+
 ## Schema
 
 See the [reference](../reference/index.qmd#data-models) page for a detailed overview of the data models. Below is a simplified schema of the output after forced alignment of the quick-start example.
