@@ -68,7 +68,7 @@ def resolve_char_to_word(
     return normalized_char_to_word
 
 
-def fuzzy_match(
+def _fuzzy_match(
     needle: str,
     haystack: str,
     char_to_word: list[int],
@@ -122,7 +122,7 @@ def fuzzy_match(
     )
 
 
-def fuzzy_match_long(
+def _fuzzy_match_long(
     needle: str,
     haystack: str,
     char_to_word: list[int],
@@ -156,13 +156,13 @@ def fuzzy_match_long(
         The match result, or None if no match above the threshold.
     """
     if len(needle) <= 2 * max_length:
-        return fuzzy_match(needle, haystack, char_to_word, threshold)
+        return _fuzzy_match(needle, haystack, char_to_word, threshold)
 
     first_segment = needle[:max_length]
     last_segment = needle[-max_length:]
 
-    match_first = fuzzy_match(first_segment, haystack, char_to_word, threshold)
-    match_last = fuzzy_match(last_segment, haystack, char_to_word, threshold)
+    match_first = _fuzzy_match(first_segment, haystack, char_to_word, threshold)
+    match_last = _fuzzy_match(last_segment, haystack, char_to_word, threshold)
 
     if match_first is None or match_last is None:
         return None
@@ -178,3 +178,58 @@ def fuzzy_match_long(
         end_index=match_last.end_index,
         score=avg_score,
     )
+
+
+def fuzzy_match(
+    needle: str,
+    haystack: list[SpeechSegment],
+    threshold: float = 55.0,
+    max_length: int = 300,
+    return_words: bool = False,
+) -> FuzzyMatch | None | tuple[FuzzyMatch | None, list[WordSegment]]:
+    """Fuzzy match between a needle (ground-truth text) and a haystack (ASR text).
+
+    Flattens all word segments from the SpeechSegment objects into a single haystack and
+    searches for the needle within them. The returned `FuzzyMatch` object includes both
+    word indices and audio timestamps of the matched segment.
+
+    Parameters
+    ----------
+    needle : str
+        The text to search for.
+    haystack : list[SpeechSegment]
+        Speech segments containing word-level alignments to search within.
+        The text from these segments will be concatenated to form the haystack.
+    threshold : float
+        Minimum score (0-100) for a match to be returned.
+    max_length : int
+        Character length for splitting long needles. Needles longer than
+        ``2 * max_length`` are matched by anchoring the first and last
+        ``max_length`` characters independently.
+    return_words : bool
+        If True, also return the flattened word list as a second value. Useful
+        for debugging (e.g. inspecting surrounding context of the match).
+
+    Returns
+    -------
+    FuzzyMatch or None or tuple[FuzzyMatch or None, list[WordSegment]]
+        The match result with timestamps, or None if no match above the threshold.
+        If `return_words` is True, returns a `(FuzzyMatch | None, list[WordSegment])`
+        tuple instead, for debugging purposes.
+    """
+    words = flatten_words(haystack)
+    haystack, char_to_word = build_haystack(words)
+    result = _fuzzy_match_long(needle, haystack, char_to_word, threshold, max_length)
+
+    if result is not None:
+        result = FuzzyMatch(
+            start_index=result.start_index,
+            end_index=result.end_index,
+            score=result.score,
+            start=words[result.start_index].start,
+            end=words[result.end_index].end,
+        )
+
+    if return_words:
+        return result, words
+    return result

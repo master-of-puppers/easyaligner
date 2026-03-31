@@ -3,7 +3,6 @@ from easyaligner.text.match import (
     build_haystack,
     flatten_words,
     fuzzy_match,
-    fuzzy_match_long,
     resolve_char_to_word,
 )
 from easyaligner.text.normalization import (
@@ -21,7 +20,6 @@ __all__ = [
     "build_haystack",
     "flatten_words",
     "fuzzy_match",
-    "fuzzy_match_long",
     "load_tokenizer",
     "merge_multitoken_expressions",
     "resolve_char_to_word",
