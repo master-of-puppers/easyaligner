@@ -362,6 +362,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../get-started/text_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Text processing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../get-started/search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Search Interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../get-started/logging_error.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Logging and error handling</span></a>
   </div>
@@ -414,6 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<style>:root { --scrollable-max-height: 580px; }</style>
 <p><code>easyaligner</code> is a forced alignment library, aligning text transcripts to audio with precise word-level timestamps. The output can be segmented at any level of granularity (sentence, paragraph, etc.) while preserving the original text’s formatting.</p>
 <p>The library supports aligning from both ground-truth transcripts, as well as from ASR model outputs. See the library <a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a> for an example of <code>easyaligner</code> being used to align ASR outputs.</p>
 <section id="installation" class="level2">
@@ -432,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="usage">Usage</h2>
 <p>Below is a minimal example of the simplest alignment scenario: a text transcript that covers the full audio. <a href="../get-started/tutorial01.html">Tutorial 1</a> demonstrates the same scenario in more detail.</p>
 <p>The example below uses a 57-second snippet from a LibriVox recording of <a href="https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/">A Tale of Two Cities</a>, corresponding to the first paragraph of Chapter I. The text used for alignment is assigned directly to the <code>text</code> variable as a string.</p>
-<div id="555de7df" class="cell" data-execution_count="1">
+<div id="eeaa5d35" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> (</span>
@@ -553,6 +566,19 @@ Tip
 </div>
 </div>
 </div></div><script src="demo.js"></script>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To browse and search your own alignments with the same synchronized playback, see <a href="../get-started/search.html">easysearch</a>.</p>
+</div>
+</div>
 </section>
 <section id="outputs" class="level2">
 <h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
@@ -564,34 +590,153 @@ Tip
 <section id="reading-the-output" class="level3">
 <h3 class="anchored" data-anchor-id="reading-the-output">Reading the output</h3>
 <p>Let’s read the final aligned output and print one of the aligned segments. We can use a convenience function from <code>easyaligner</code> that reads the file as an <a href="../reference/AudioMetadata.html"><code>AudioMetadata</code></a> object.</p>
-<div id="51ef14a2" class="cell" data-execution_count="2">
+<div id="b6ce9040" class="cell" data-class-output="scrollable" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.data.utils <span class="im">import</span> read_json</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprint <span class="im">import</span> pprint</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> read_json(<span class="st">"output/alignments/taleoftwocities_01_dickens_64kb_trimmed.json"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the 3rd aligned segment of the first speech</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>pprint(results.speeches[<span class="dv">0</span>].alignments[<span class="dv">3</span>].to_dict())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> read_json(<span class="st">"output/alignments/taleoftwocities_01_dickens_64kb_align.json"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the 1st aligned segment of the first speech</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>pprint(results.speeches[<span class="dv">0</span>].alignments[<span class="dv">0</span>].to_dict())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>{'duration': 3.80269,
- 'end': 84.1674,
- 'id': '0-3',
- 'score': 0.96526,
- 'start': 80.36471,
- 'text': 'It was the year of Our Lord one thousand seven hundred and '
-         'seventy-five.\r\n',
- 'words': [WordSegment(text='It ', start=80.36471, end=80.40474, score=1.0),
-           WordSegment(text='was ', start=80.44477, end=80.54484, score=0.9584),
-           WordSegment(text='the ', start=80.58487, end=80.66492, score=0.93115),
-           WordSegment(text='year ', start=80.70495, end=80.90509, score=0.99642),
-           WordSegment(text='of ', start=80.98515, end=81.04519, score=0.89388),
-           WordSegment(text='Our ', start=81.16528, end=81.26535, score=0.98242),
-           WordSegment(text='Lord ', start=81.34541, end=81.56556, score=0.9928),
-           WordSegment(text='one ', start=81.72567, end=81.82574, score=0.99453),
-           WordSegment(text='thousand ', start=81.92582, end=82.34611, score=0.98317),
-           WordSegment(text='seven ', start=82.42617, end=82.68635, score=0.89331),
-           WordSegment(text='hundred ', start=82.76641, end=83.06662, score=0.94355),
-           WordSegment(text='and ', start=83.12667, end=83.18671, score=0.99154),
-           WordSegment(text='seventy-five.\r\n', start=83.28678, end=84.1674, score=0.98717)]}</code></pre>
+<pre><code>{'duration': 52.01999,
+ 'end': 56.99155,
+ 'id': '0-0',
+ 'score': 0.97476,
+ 'start': 4.97156,
+ 'text': 'It was the best of times, it was the worst of times, it was the age '
+         'of\n'
+         'wisdom, it was the age of foolishness, it was the epoch of belief, '
+         'it\n'
+         'was the epoch of incredulity, it was the season of Light, it was '
+         'the\n'
+         'season of Darkness, it was the spring of hope, it was the winter of\n'
+         'despair, we had everything before us, we had nothing before us, we '
+         'were\n'
+         'all going direct to Heaven, we were all going direct the other '
+         'way--in\n'
+         'short, the period was so far like the present period, that some of '
+         'its\n'
+         'noisiest authorities insisted on its being received, for good or '
+         'for\n'
+         'evil, in the superlative degree of comparison only.',
+ 'words': [WordSegment(text='It ', start=4.97156, end=5.05162, score=0.63086),
+           WordSegment(text='was ', start=6.67286, end=6.77294, score=0.99967),
+           WordSegment(text='the ', start=6.853, end=6.95308, score=0.92004),
+           WordSegment(text='best ', start=7.27333, end=7.59357, score=0.99961),
+           WordSegment(text='of ', start=7.73368, end=7.77371, score=0.99951),
+           WordSegment(text='times, ', start=7.8938, end=8.57433, score=0.96924),
+           WordSegment(text='it ', start=8.83453, end=8.89457, score=0.99544),
+           WordSegment(text='was ', start=8.97463, end=9.09473, score=0.99854),
+           WordSegment(text='the ', start=9.21482, end=9.35493, score=0.93916),
+           WordSegment(text='worst ', start=9.53506, end=9.9754, score=0.95497),
+           WordSegment(text='of ', start=10.11551, end=10.15554, score=0.99585),
+           WordSegment(text='times, ', start=10.29565, end=10.85608, score=0.98682),
+           WordSegment(text='it ', start=11.17633, end=11.21636, score=0.99683),
+           WordSegment(text='was ', start=11.25639, end=11.33645, score=0.99919),
+           WordSegment(text='the ', start=11.3965, end=11.47656, score=1.0),
+           WordSegment(text='age ', start=11.63668, end=11.83683, score=0.91875),
+           WordSegment(text='of\n', start=11.9169, end=11.95693, score=1.0),
+           WordSegment(text='wisdom, ', start=12.15708, end=12.6975, score=0.99548),
+           WordSegment(text='it ', start=13.55816, end=13.59819, score=0.99951),
+           WordSegment(text='was ', start=13.63822, end=13.7383, score=0.99646),
+           WordSegment(text='the ', start=13.81836, end=13.91843, score=0.99414),
+           WordSegment(text='age ', start=14.03853, end=14.19865, score=1.0),
+           WordSegment(text='of ', start=14.27871, end=14.31874, score=0.99976),
+           WordSegment(text='foolishness, ', start=14.61897, end=15.41959, score=0.97705),
+           WordSegment(text='it ', start=15.57971, end=15.61974, score=0.99927),
+           WordSegment(text='was ', start=15.67979, end=15.75985, score=0.99951),
+           WordSegment(text='the ', start=15.83991, end=15.91997, score=0.99939),
+           WordSegment(text='epoch ', start=16.10011, end=16.4804, score=0.98382),
+           WordSegment(text='of ', start=16.58048, end=16.62051, score=0.99927),
+           WordSegment(text='belief, ', start=16.80065, end=17.28102, score=0.99182),
+           WordSegment(text='it\n', start=17.86147, end=17.9015, score=0.99951),
+           WordSegment(text='was ', start=17.96154, end=18.0416, score=0.99951),
+           WordSegment(text='the ', start=18.10165, end=18.18171, score=0.99935),
+           WordSegment(text='epoch ', start=18.32182, end=18.70211, score=0.98676),
+           WordSegment(text='of ', start=18.76216, end=18.80219, score=1.0),
+           WordSegment(text='incredulity, ', start=18.90227, end=20.10319, score=0.99255),
+           WordSegment(text='it ', start=20.46347, end=20.5035, score=0.99976),
+           WordSegment(text='was ', start=20.56354, end=20.66362, score=0.99967),
+           WordSegment(text='the ', start=20.7637, end=20.84376, score=0.97864),
+           WordSegment(text='season ', start=21.00388, end=21.48425, score=0.94658),
+           WordSegment(text='of ', start=21.58433, end=21.62436, score=0.99951),
+           WordSegment(text='Light, ', start=21.90457, end=22.2048, score=0.97893),
+           WordSegment(text='it ', start=23.12551, end=23.16554, score=0.99951),
+           WordSegment(text='was ', start=23.20557, end=23.28564, score=0.99886),
+           WordSegment(text='the\n', start=23.3657, end=23.44576, score=0.98014),
+           WordSegment(text='season ', start=23.6259, end=24.06624, score=0.97461),
+           WordSegment(text='of ', start=24.16631, end=24.20634, score=0.99951),
+           WordSegment(text='Darkness, ', start=24.50657, end=25.38725, score=0.99574),
+           WordSegment(text='it ', start=25.9677, end=26.02774, score=0.9821),
+           WordSegment(text='was ', start=26.06777, end=26.18787, score=0.98711),
+           WordSegment(text='the ', start=26.26793, end=26.368, score=0.99414),
+           WordSegment(text='spring ', start=26.52813, end=27.1486, score=0.98633),
+           WordSegment(text='of ', start=27.28871, end=27.34876, score=0.97786),
+           WordSegment(text='hope, ', start=27.86916, end=28.16939, score=0.99536),
+           WordSegment(text='it ', start=29.19017, end=29.23021, score=0.99951),
+           WordSegment(text='was ', start=29.29025, end=29.43036, score=0.91426),
+           WordSegment(text='the ', start=29.53044, end=29.65053, score=0.90833),
+           WordSegment(text='winter ', start=29.85068, end=30.41111, score=0.95028),
+           WordSegment(text='of\n', start=30.53121, end=30.57124, score=1.0),
+           WordSegment(text='despair, ', start=30.75137, end=31.75214, score=0.997),
+           WordSegment(text='we ', start=33.33336, end=33.41342, score=0.98991),
+           WordSegment(text='had ', start=33.47347, end=33.59356, score=0.98547),
+           WordSegment(text='everything ', start=33.7737, end=34.17401, score=0.99474),
+           WordSegment(text='before ', start=34.27408, end=34.79448, score=0.99988),
+           WordSegment(text='us, ', start=34.91458, end=34.99464, score=0.90869),
+           WordSegment(text='we ', start=35.41496, end=35.49502, score=1.0),
+           WordSegment(text='had ', start=35.55507, end=35.67516, score=0.99967),
+           WordSegment(text='nothing ', start=35.89533, end=36.29564, score=0.99396),
+           WordSegment(text='before ', start=36.39571, end=36.87608, score=0.95527),
+           WordSegment(text='us, ', start=36.99618, end=37.07624, score=0.99447),
+           WordSegment(text='we ', start=37.71673, end=37.79679, score=0.88672),
+           WordSegment(text='were\n', start=37.83682, end=37.97693, score=0.85181),
+           WordSegment(text='all ', start=38.05699, end=38.1971, score=0.99341),
+           WordSegment(text='going ', start=38.27716, end=38.57739, score=0.98354),
+           WordSegment(text='direct ', start=38.63744, end=38.9777, score=0.96343),
+           WordSegment(text='to ', start=39.05776, end=39.15784, score=0.98568),
+           WordSegment(text='Heaven, ', start=39.25791, end=39.61819, score=0.97201),
+           WordSegment(text='we ', start=40.47885, end=40.55891, score=1.0),
+           WordSegment(text='were ', start=40.61896, end=40.73905, score=0.97734),
+           WordSegment(text='all ', start=40.75907, end=40.89918, score=0.95488),
+           WordSegment(text='going ', start=40.95922, end=41.21942, score=0.98551),
+           WordSegment(text='direct ', start=41.27947, end=41.63975, score=0.98828),
+           WordSegment(text='the ', start=41.73982, end=41.81988, score=0.92448),
+           WordSegment(text='other ', start=41.95999, end=42.14013, score=1.0),
+           WordSegment(text='way--in\n', start=42.22019, end=43.00079, score=1.0),
+           WordSegment(text='short, ', start=43.16091, end=43.44113, score=0.9668),
+           WordSegment(text='the ', start=43.68131, end=43.78139, score=0.89551),
+           WordSegment(text='period ', start=43.88147, end=44.28178, score=0.99772),
+           WordSegment(text='was ', start=44.36184, end=44.46192, score=0.99919),
+           WordSegment(text='so ', start=44.62204, end=44.78216, score=0.85278),
+           WordSegment(text='far ', start=44.98232, end=45.20248, score=0.99984),
+           WordSegment(text='like ', start=45.28255, end=45.46268, score=1.0),
+           WordSegment(text='the ', start=45.54275, end=45.62281, score=0.91345),
+           WordSegment(text='present ', start=45.72288, end=46.10318, score=0.93546),
+           WordSegment(text='period, ', start=46.20325, end=46.62358, score=0.99717),
+           WordSegment(text='that ', start=46.86376, end=46.98385, score=0.99609),
+           WordSegment(text='some ', start=47.06392, end=47.24405, score=0.94922),
+           WordSegment(text='of ', start=47.3041, end=47.34413, score=1.0),
+           WordSegment(text='its\n', start=47.42419, end=47.54428, score=0.93579),
+           WordSegment(text='noisiest ', start=47.70441, end=48.28485, score=0.98397),
+           WordSegment(text='authorities ', start=48.42496, end=49.08547, score=0.97602),
+           WordSegment(text='insisted ', start=49.18555, end=49.84605, score=0.97929),
+           WordSegment(text='on ', start=49.92612, end=49.96615, score=0.99976),
+           WordSegment(text='its ', start=50.02619, end=50.14629, score=0.95586),
+           WordSegment(text='being ', start=50.22635, end=50.46653, score=0.99707),
+           WordSegment(text='received, ', start=50.52658, end=51.08701, score=0.97939),
+           WordSegment(text='for ', start=51.48732, end=51.60741, score=1.0),
+           WordSegment(text='good ', start=51.68747, end=51.90764, score=0.99961),
+           WordSegment(text='or ', start=52.44805, end=52.5081, score=0.92513),
+           WordSegment(text='for\n', start=52.58816, end=52.70825, score=0.99902),
+           WordSegment(text='evil, ', start=52.88839, end=53.14859, score=0.95912),
+           WordSegment(text='in ', start=53.52889, end=53.56892, score=1.0),
+           WordSegment(text='the ', start=53.62896, end=53.70902, score=0.87646),
+           WordSegment(text='superlative ', start=53.82912, end=54.74982, score=0.95378),
+           WordSegment(text='degree ', start=54.82989, end=55.23019, score=0.97207),
+           WordSegment(text='of ', start=55.29024, end=55.33027, score=1.0),
+           WordSegment(text='comparison ', start=55.45036, end=56.27099, score=0.99941),
+           WordSegment(text='only.', start=56.6713, end=56.99155, score=0.9767)]}</code></pre>
 </div>
 </div>
 </section>
