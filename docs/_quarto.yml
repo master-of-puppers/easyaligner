@@ -28,6 +28,8 @@ website:
         - get-started/tutorial01.qmd
         - get-started/tutorial02.qmd
         - get-started/tutorial03.qmd
+        - get-started/text_processing.qmd
+        - get-started/search.qmd
         - get-started/logging_error.qmd
   open-graph: 
     title: "easyaligner: Forced Alignment Made Easy"

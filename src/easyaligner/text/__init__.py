@@ -11,7 +11,7 @@ from easyaligner.text.normalization import (
     merge_multitoken_expressions,
     text_normalizer,
 )
-from easyaligner.text.tokenizer import load_tokenizer
+from easyaligner.text.tokenizer import load_tokenizer, paragraph_tokenizer
 
 __all__ = [
     "FuzzyMatch",
@@ -21,6 +21,7 @@ __all__ = [
     "flatten_words",
     "fuzzy_match",
     "load_tokenizer",
+    "paragraph_tokenizer",
     "merge_multitoken_expressions",
     "resolve_char_to_word",
     "text_normalizer",

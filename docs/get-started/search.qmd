@@ -1,0 +1,87 @@
+---
+title: Search Interface
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+reference-location: margin
+freeze: true
+---
+
+`easysearch` is a lightweight search interface for browsing and querying alignment outputs, built into the companion package [`easytranscriber`](https://kb-labb.github.io/easytranscriber/). It indexes the alignment JSON files into a SQLite database with full-text search and serves a web UI for searching, browsing documents, and playing back audio with synchronized transcript highlighting.
+
+See the [demo](overview.qmd#results-force-aligned-output) in the overview for a preview of the synchronized highlighting.
+
+## Installation
+
+The `easysearch` dependencies are optional. Install them with:
+
+```bash
+pip install easytranscriber[search]
+```
+
+## Quick start
+
+After running the alignment pipeline, start the search server by pointing it at your alignment outputs and audio files:
+
+```bash
+easysearch --alignments-dir output/alignments --audio-dir data/audio
+```
+
+This will:
+
+1. Index all alignment JSON files into a local SQLite database (`search.db`).
+2. Start a web server at [http://127.0.0.1:8642](http://127.0.0.1:8642).
+
+On subsequent launches, only new or modified files are re-indexed. Use `--reindex` to force a full re-index.
+
+## Audio playback
+
+Clicking a search result takes you to the document page at the matching timestamp. The audio player seeks to that position and begins playback. The transcript view highlights the currently playing word in real time, and you can click any sentence or paragraph to jump to that point in the audio.
+
+::: {.callout-note}
+Some browsers block autoplay by default. If audio doesn't start automatically when navigating from a search result, a play button overlay will appear. Click it to begin playback.
+:::
+
+## How indexing works
+
+`easysearch` indexes transcriptions at the **chunk** level. Each chunk is a continuous speech region (~20--30 seconds) produced by voice activity detection. Each chunk becomes a searchable row in the database.
+
+This means:
+
+- A search query matches when **all terms appear within the same chunk**.
+- Words that span across adjacent chunks won't match as a combined query.
+- Because chunks are larger than individual sentences or paragraphs, cross-sentence queries within the same chunk will match.
+
+The document page still displays the transcript at the **alignment segment** level (sentence or paragraph, depending on your tokenizer), so you can click any segment to jump to that point in the audio.
+
+## Search syntax
+
+The search uses SQLite's [FTS5](https://www.sqlite.org/fts5.html) full-text search engine. The following query syntax is supported:
+
+| Query | Matches |
+|-------|---------|
+| `climate change` | Chunks containing both words (implicit AND) |
+| `"climate change"` | Exact phrase |
+| `climate OR weather` | Either word |
+| `climate NOT weather` | *climate* but not *weather* |
+| `econom*` | Prefix match: *economy*, *economic*, etc. |
+| `NEAR(climate change, 3)` | Both words within 3 tokens of each other |
+
+## CLI reference
+
+```bash
+easysearch --help
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--alignments-dir` | `output/alignments` | Directory containing alignment JSON files |
+| `--audio-dir` | `data` | Directory containing source audio files |
+| `--db` | `search.db` | Path to the SQLite database file |
+| `--host` | `127.0.0.1` | Host to bind to |
+| `--port` | `8642` | Port to listen on |
+| `--per-page` | `20` | Results per page |
+| `--snippets-per-doc` | `5` | Max matching snippets shown per document in search results |
+| `--reindex` | | Force full re-index of all JSON files |

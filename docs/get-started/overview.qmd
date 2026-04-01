@@ -15,6 +15,8 @@ resources:
     - ../_assets/taleoftwocities_01_dickens_64kb_align.json
 ---
 
+<style>:root { --scrollable-max-height: 580px; }</style>
+
 `easyaligner` is a forced alignment library, aligning text transcripts to audio with precise word-level timestamps. The output can be segmented at any level of granularity (sentence, paragraph, etc.) while preserving the original text's formatting.
 
 The library supports aligning from both ground-truth transcripts, as well as from ASR model outputs. See the library [`easytranscriber`](https://kb-labb.github.io/easytranscriber/) for an example of `easyaligner` being used to align ASR outputs. 
@@ -148,6 +150,10 @@ You can click anywhere in the text to jump to that point in the audio. The text 
 
 <script src="demo.js"></script>
 
+::: {.callout-tip}
+To browse and search your own alignments with the same synchronized playback, see [easysearch](search.qmd).
+:::
+
 ## Outputs
 
 By default, `easyaligner` outputs a JSON file for each stage of the pipeline (VAD, emissions, forced alignment). The final aligned output can be found in `output/alignments`. The directory structure will look as follows:
@@ -164,12 +170,13 @@ output
 Let's read the final aligned output and print one of the aligned segments. We can use a convenience function from `easyaligner` that reads the file as an [`AudioMetadata`](../reference/AudioMetadata.qmd) object.
 
 ```{python}
+#| class-output: scrollable
 from easyaligner.data.utils import read_json
 from pprint import pprint
 
-results = read_json("output/alignments/taleoftwocities_01_dickens_64kb_trimmed.json")
-# Print the 3rd aligned segment of the first speech
-pprint(results.speeches[0].alignments[3].to_dict())
+results = read_json("output/alignments/taleoftwocities_01_dickens_64kb_align.json")
+# Print the 1st aligned segment of the first speech
+pprint(results.speeches[0].alignments[0].to_dict())
 ```
 
 ## Schema

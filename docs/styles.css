@@ -17,6 +17,8 @@ html {
 
 /* css styles */
 
+[data-class-output="scrollable"] .cell-output { max-height: var(--scrollable-max-height, 300px); overflow-y: auto; }
+
 .cell-output pre code {
     white-space: pre-wrap;
 }

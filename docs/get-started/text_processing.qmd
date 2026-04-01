@@ -1,0 +1,265 @@
+---
+title: Text processing
+format:
+  html:
+    embed-resources: false
+    toc: true
+    toc-depth: 3
+reference-location: margin
+freeze: true
+conda:
+    environment: easywhisper
+---
+
+`easyaligner` supports custom regex-based text normalization functions to preprocess text before forced alignment. The normalizations are applied to both the input text and the acoustic emissions from the wav2vec2 model, allowing the forced alignment algorithm to reconcile the two.
+
+Wav2vec2 models tend to produce all-lowercase or all-uppercase outputs without punctuation. Text transcripts, on the other hand, retain their original casing and punctuation. Normalizing the text to match the model's output before alignment can substantially improve alignment quality.
+
+::: {.callout-note}
+The normalizations are reversible, meaning that the original text can be recovered after forced alignment has been performed^[Whitespace is not always recoverable, depending on the regex patterns used].
+:::
+
+## Normalization
+
+Let's apply some basic normalization to our example from A Tale of Two Cities. To explore the effect of our normalizations, we will import the [`SpanMapNormalizer`](../reference/normalization.SpanMapNormalizer.qmd) class from the `easyaligner` library, and remove punctuation.
+
+```{python}
+from easyaligner.text.normalization import SpanMapNormalizer
+
+text = """Book 1. Chapter 1, The Period. It was the best of times. It was the worst of times.
+It was the age of wisdom. It was the age of foolishness. It was the epoch of belief.
+It was the epoch of incredulity. It was the season of light.
+It was the season of darkness. It was the spring of hope."""
+
+normalizer = SpanMapNormalizer(text)
+normalizer.transform(r"[^\w\s]", "")  # Remove punctuation and special characters
+print(normalizer.current_text)
+```
+
+Let's make it all lowercase as well:
+
+```{python}
+normalizer.transform(r"\S+", lambda m: m.group().lower())
+print(normalizer.current_text)
+```
+
+We may also want to convert the numbers to their word forms. The library `num2words`^[`pip install num2words`] can help with this:
+
+```{python}
+from num2words import num2words
+normalizer.transform(r"\d+", lambda m: num2words(int(m.group())))  # Convert numbers to words
+print(normalizer.current_text)
+```
+
+When you're feeling done, it's a good idea to always apply whitespace normalization as the final transformation step:
+
+```{python}
+normalizer.transform(r"\s+", " ")  # Normalize whitespace to a single space
+normalizer.transform(r"^\s+|\s+$", "")  # Strip leading and trailing whitespace
+print(normalizer.current_text)
+```
+
+Our text is now ready for forced alignment. However, if we want to recover the original text, it does not suffice to pass only the normalized text to the forced alignment algorithm. We also need to pass a mapping between the original text and the normalized text. Any user supplied text normalization function in `easyaligner` needs to return the following two objects:
+
+```{python}
+mapping = normalizer.get_token_map()
+normalized_tokens = [item["normalized_token"] for item in mapping]
+```
+
+Let's inspect what's in the first five items of the mapping:
+
+```{python}
+for item in mapping[:5]:
+    print(item)
+```
+
+We can see that `normalized_token` and `text` contain the token in the normalized and original text, respectively, while `start_char` and `end_char` indicate the character indices of the token in the original text.
+
+::: {.callout-tip}
+When you are done testing your transformations, combine them into a function that takes in a string and outputs the normalized tokens and the mapping. See below for an example of how the default normalization function in `easyaligner` is implemented.
+:::
+
+### Default text_normalizer
+
+`easyaligner` provides a conservative default text normalization function. This default function is applied^[See [pipeline](../reference/pipeline.html#parameters) and the arg `text_normalizer_fn`] unless the user specifies their own function.
+
+Here is the default normalization function, for reference:
+
+```{python}
+import unicodedata
+
+def text_normalizer(text: str):
+    """
+    Default text normalization function.
+
+    Applies:
+        - Unicode normalization (NFKC)
+        - Lowercasing
+        - Normalization of whitespace
+        - Removal of punctuation and special characters
+
+    Parameters
+    ----------
+    text : str
+        Input text to normalize.
+
+    Returns
+    -------
+    tuple
+        Tuple containing (normalized_tokens, mapping).
+    """
+    normalizer = SpanMapNormalizer(text)
+    normalizer.transform(r"\S+", lambda m: unicodedata.normalize("NFKC", m.group()))
+    normalizer.transform(r"\S+", lambda m: m.group().lower())
+    normalizer.transform(r"[^\w\s]", "")  # Remove punctuation and special characters
+    normalizer.transform(r"\s+", " ")  # Normalize whitespace to a single space
+    normalizer.transform(r"^\s+|\s+$", "")  # Strip leading and trailing whitespace
+
+    mapping = normalizer.get_token_map()
+    normalized_tokens = [item["normalized_token"] for item in mapping]
+    return normalized_tokens, mapping
+```
+
+In many cases you may want, or need, to be more careful with how removal of punctuation and special characters is applied. Words with hyphens, em dashes, or scores in sports games (e.g. `3-2`) are examples where you may want to insert a whitespace instead of removing the characters entirely. Beware, also, that the ordering of the transformations can sometimes matter.
+
+::: {.column-margin}
+::: {.callout-warning}
+Avoid overly broad regex patterns. A pattern that matches everything will produce a useless mapping.
+:::
+:::
+
+It is highly recommended to inspect the intermediate outputs of the applied transformations as described in the [previous section](#normalization).
+
+## Sentence tokenization
+
+`easyaligner` supports passing a tokenizer to the `pipeline` function that segments the input text according to the user's preferences. The best matching `start` and `end` timestamps will be assigned to each tokenized segment based on the outputs from forced alignment.
+
+For sentence tokenization, we recommend using `nltk.tokenize.punkt.PunktTokenizer`. The `load_tokenizer` function from `easyaligner` provides a convenient way to load an appropriate tokenizer for your language:
+
+```{python}
+from easyaligner.text import load_tokenizer
+tokenizer = load_tokenizer(language="english")
+```
+
+`PunktTokenizer` maintains lists of abbreviations to avoid incorrectly splitting sentences. We can inspect the loaded tokenizer's list of abbreviations as follows:
+
+```{python}
+print("Current abbreviations:", tokenizer._params.abbrev_types)
+print(f"Length of abbreviations: {len(tokenizer._params.abbrev_types)}")
+```
+
+One may however want to add custom abbreviations to the tokenizer depending on the domain of one's data:
+
+```{python}
+new_abbreviations = {"rev", "capt"}
+tokenizer._params.abbrev_types.update(new_abbreviations)
+print("Updated abbreviations:", tokenizer._params.abbrev_types)
+print(f"Length of abbreviations: {len(tokenizer._params.abbrev_types)}")
+```
+
+With sentence tokenization, the spans need to be pre-computed and passed as `text_spans` on the `SpeechSegment` before the pipeline runs. Pass the tokenizer itself to `pipeline` as well, so it can be used as a fallback for any speech segments that don't have pre-computed spans:
+
+```{python}
+#| eval: false
+from easyaligner.data.datamodel import SpeechSegment
+
+span_list = list(tokenizer.span_tokenize(text))  # start, end character indices for each sentence
+speeches = [[SpeechSegment(speech_id=0, text=text, text_spans=span_list, start=None, end=None)]]
+
+pipeline(
+    ...,
+    speeches=speeches,
+    tokenizer=tokenizer,
+)
+```
+
+## Paragraph tokenization
+
+For long-form texts, such as books, sentence-level tokenization may be too fine-grained. Sentence tokenizers are also fallible. They may fail to split sentences at the correct location. These failures may lead to a paragraph break being present in the middle of an `AlignmentSegment`, causing problems for the [`easysearch`](search.qmd) interactive search interface to display the results with identical formatting to the original text.  
+
+`easyaligner` therefore includes a `paragraph_tokenizer` that splits on double newlines, ensuring that each `AlignmentSegment` always corresponds to exactly one paragraph:
+
+```{python}
+from easyaligner.text import paragraph_tokenizer
+
+sample = "First paragraph.\n\nSecond paragraph.\n\nThird paragraph."
+print(paragraph_tokenizer(sample))
+```
+
+Here is the source code for reference:
+
+```{python}
+import re
+
+def paragraph_tokenizer(text: str) -> list[tuple[int, int]]:
+    """
+    Tokenize text into paragraphs based on double newlines.
+
+    Returns character spans (start, end) for each non-empty paragraph.
+    Suitable as a drop-in replacement for PunktTokenizer when paragraph-level
+    alignment granularity is desired.
+
+    Parameters
+    ----------
+    text : str
+        The text to tokenize into paragraphs.
+
+    Returns
+    -------
+    list of tuple[int, int]
+        List of (start_char, end_char) spans, one per paragraph.
+    """
+    spans = []
+    start = 0
+    for m in re.finditer(r'\r?\n\r?\n', text):
+        spans.append((start, m.start()))
+        start = m.end()
+    spans.append((start, len(text)))
+    return [(s, e) for s, e in spans if text[s:e].strip()]
+```
+
+Unlike `PunktTokenizer`, `paragraph_tokenizer` is a plain callable (i.e. a function). No pre-computation of character spans is needed. Just pass it directly to the `pipeline`:
+
+```{python}
+#| eval: false
+from easyaligner.text import paragraph_tokenizer
+
+pipeline(
+    ...,
+    tokenizer=paragraph_tokenizer,
+)
+```
+
+Each alignment segment in the output JSON will then correspond to exactly one paragraph, and paragraph breaks will appear at the correct locations in the [`easysearch`](search.qmd) search interface.
+
+::: {.callout-note}
+Because `paragraph_tokenizer` is called at alignment time on each speech segment's text, it works correctly even when a speech segment spans many paragraphs. No `text_spans` pre-computation is necessary.
+:::
+
+## Arbitrary tokenization
+
+The `tokenizer` argument of the `pipeline` function accepts any function that takes in a string and outputs a list of `(start_char, end_char)` tuples. Custom tokenization functions can therefore be defined based on any arbitrary segmentation of the source text.
+
+```{python}
+import re
+
+def chapter_tokenizer(text: str) -> list[tuple[int, int]]:
+    """Split text at chapter headings (e.g. 'CHAPTER I.')."""
+    spans = []
+    boundaries = [m.start() for m in re.finditer(r"CHAPTER [IVXLC]+\.", text)]
+    boundaries.append(len(text))
+    for start, end in zip(boundaries, boundaries[1:]):
+        if text[start:end].strip():
+            spans.append((start, end))
+    return spans
+```
+
+Pass it to the pipeline the same way as `paragraph_tokenizer`:
+
+```{python}
+#| eval: false
+pipeline(
+    ...,
+    tokenizer=chapter_tokenizer,
+)
+```
