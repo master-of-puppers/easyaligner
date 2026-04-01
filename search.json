@@ -1144,7 +1144,7 @@
     "href": "get-started/search.html#how-indexing-works",
     "title": "Search Interface",
     "section": "How indexing works",
-    "text": "How indexing works\neasysearch indexes transcriptions at the chunk level. Each chunk is a continuous speech region (~20–30 seconds) produced by voice activity detection. Each chunk becomes a searchable row in the database.\nThis means:\n\nA search query matches when all terms appear within the same chunk.\nWords that span across adjacent chunks won’t match as a combined query.\nBecause chunks are larger than individual sentences or paragraphs, cross-sentence queries within the same chunk will match.\n\nThe document page still displays the transcript at the alignment segment level (sentence or paragraph, depending on your tokenizer), so you can click any segment to jump to that point in the audio.",
+    "text": "How indexing works\neasysearch automatically detects how file contents should be indexed depending on whether the output was created in the library easyaligner or easytranscriber. For easyaligner output, the audio does not undergo automatic transcription. Therefore, the VAD chunks are not going to contain any ASR generated text.\nThe force aligned ground-truth texts will be in the alignments field. Each one of these alignment segments (sentence, paragraph, or other granularity, depending on your tokenizer) become searchable rows in the database.\nThis means:\n\nA search query matches when all terms appear within the same alignment segment.\nIf your tokenization is fine-grained (sentence-level), broad queries may become more difficult.\n\nThe document page displays the transcript at the alignment segment level, so you can click any segment, and jump to that point in the audio.\n\n\n\n\n\n\nNote\n\n\n\neasysearch also supports chunks mode for files produced by the easytranscriber ASR pipeline, where indexing is at the VAD chunk level (~20–30 seconds per chunk). The mode is detected automatically, but can be overridden with --index-mode.",
     "crumbs": [
       "Get Started",
       "Search Interface"
@@ -1155,7 +1155,7 @@
     "href": "get-started/search.html#search-syntax",
     "title": "Search Interface",
     "section": "Search syntax",
-    "text": "Search syntax\nThe search uses SQLite’s FTS5 full-text search engine. The following query syntax is supported:\n\n\n\nQuery\nMatches\n\n\n\n\nclimate change\nChunks containing both words (implicit AND)\n\n\n\"climate change\"\nExact phrase\n\n\nclimate OR weather\nEither word\n\n\nclimate NOT weather\nclimate but not weather\n\n\neconom*\nPrefix match: economy, economic, etc.\n\n\nNEAR(climate change, 3)\nBoth words within 3 tokens of each other",
+    "text": "Search syntax\nThe search uses SQLite’s FTS5 full-text search engine. The following query syntax is supported:\n\n\n\nQuery\nMatches\n\n\n\n\nclimate change\nSegments containing both words (implicit AND)\n\n\n\"climate change\"\nExact phrase\n\n\nclimate OR weather\nEither word\n\n\nclimate NOT weather\nclimate but not weather\n\n\neconom*\nPrefix match: economy, economic, etc.\n\n\nNEAR(climate change, 3)\nBoth words within 3 tokens of each other",
     "crumbs": [
       "Get Started",
       "Search Interface"
@@ -1166,7 +1166,7 @@
     "href": "get-started/search.html#cli-reference",
     "title": "Search Interface",
     "section": "CLI reference",
-    "text": "CLI reference\neasysearch --help\n\n\n\n\n\n\n\n\nOption\nDefault\nDescription\n\n\n\n\n--alignments-dir\noutput/alignments\nDirectory containing alignment JSON files\n\n\n--audio-dir\ndata\nDirectory containing source audio files\n\n\n--db\nsearch.db\nPath to the SQLite database file\n\n\n--host\n127.0.0.1\nHost to bind to\n\n\n--port\n8642\nPort to listen on\n\n\n--per-page\n20\nResults per page\n\n\n--snippets-per-doc\n5\nMax matching snippets shown per document in search results\n\n\n--reindex\n\nForce full re-index of all JSON files",
+    "text": "CLI reference\neasysearch --help\n\n\n\n\n\n\n\n\nOption\nDefault\nDescription\n\n\n\n\n--alignments-dir\noutput/alignments\nDirectory containing alignment JSON files\n\n\n--audio-dir\ndata\nDirectory containing source audio files\n\n\n--db\nsearch.db\nPath to the SQLite database file\n\n\n--host\n127.0.0.1\nHost to bind to\n\n\n--port\n8642\nPort to listen on\n\n\n--per-page\n20\nResults per page\n\n\n--snippets-per-doc\n5\nMax matching snippets shown per document in search results\n\n\n--reindex\n\nForce full re-index of all JSON files\n\n\n--index-mode\nauto\nOverride index mode: chunks or alignments (auto-detected if omitted)",
     "crumbs": [
       "Get Started",
       "Search Interface"

@@ -458,14 +458,27 @@ Note
 </section>
 <section id="how-indexing-works" class="level2">
 <h2 class="anchored" data-anchor-id="how-indexing-works">How indexing works</h2>
-<p><code>easysearch</code> indexes transcriptions at the <strong>chunk</strong> level. Each chunk is a continuous speech region (~20–30 seconds) produced by voice activity detection. Each chunk becomes a searchable row in the database.</p>
+<p><code>easysearch</code> automatically detects how file contents should be indexed depending on whether the output was created in the library <code>easyaligner</code> or <code>easytranscriber</code>. For <code>easyaligner</code> output, the audio does not undergo automatic transcription. Therefore, the VAD chunks are not going to contain any ASR generated text.</p>
+<p>The force aligned ground-truth texts will be in the <code>alignments</code> field. Each one of these alignment segments (sentence, paragraph, or other granularity, depending on your tokenizer) become searchable rows in the database.</p>
 <p>This means:</p>
 <ul>
-<li>A search query matches when <strong>all terms appear within the same chunk</strong>.</li>
-<li>Words that span across adjacent chunks won’t match as a combined query.</li>
-<li>Because chunks are larger than individual sentences or paragraphs, cross-sentence queries within the same chunk will match.</li>
+<li>A search query matches when <strong>all terms appear within the same alignment segment</strong>.</li>
+<li>If your tokenization is fine-grained (sentence-level), broad queries may become more difficult.</li>
 </ul>
-<p>The document page still displays the transcript at the <strong>alignment segment</strong> level (sentence or paragraph, depending on your tokenizer), so you can click any segment to jump to that point in the audio.</p>
+<p>The document page displays the transcript at the <strong>alignment segment</strong> level, so you can click any segment, and jump to that point in the audio.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>easysearch</code> also supports <strong><code>chunks</code> mode</strong> for files produced by the <a href="https://kb-labb.github.io/easytranscriber/get-started/search.html"><code>easytranscriber</code></a> ASR pipeline, where indexing is at the VAD chunk level (~20–30 seconds per chunk). The mode is detected automatically, but can be overridden with <code>--index-mode</code>.</p>
+</div>
+</div>
 </section>
 <section id="search-syntax" class="level2">
 <h2 class="anchored" data-anchor-id="search-syntax">Search syntax</h2>
@@ -480,7 +493,7 @@ Note
 <tbody>
 <tr class="odd">
 <td><code>climate change</code></td>
-<td>Chunks containing both words (implicit AND)</td>
+<td>Segments containing both words (implicit AND)</td>
 </tr>
 <tr class="even">
 <td><code>"climate change"</code></td>
@@ -561,6 +574,11 @@ Note
 <td><code>--reindex</code></td>
 <td></td>
 <td>Force full re-index of all JSON files</td>
+</tr>
+<tr class="odd">
+<td><code>--index-mode</code></td>
+<td>auto</td>
+<td>Override index mode: <code>chunks</code> or <code>alignments</code> (auto-detected if omitted)</td>
 </tr>
 </tbody>
 </table>
