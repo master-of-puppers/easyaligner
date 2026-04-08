@@ -100,8 +100,17 @@ pipeline(
 )
 ```
 
-> [!INFO]
-> `easyaligner` allows organizing the output at any level of granularity the user wishes (sentence, paragraph, or other), provided start and end character indices are provided for the boundaries of the desired segments. In the above example, we use an `nltk.tokenize.punkt.PunktTokenizer` to sentence tokenize our text. The `.span_tokenize()` method returns `(start, end)` character indices for each sentence, which we pass as `text_spans` to the `SpeechSegment` objects that are to be aligned.  
+> [!NOTE]
+> `easyaligner` allows organizing the output at any level of granularity the user wishes (sentence, paragraph, or other), provided start and end character indices are provided for the boundaries of the desired segments. In the above example, we use an `nltk.tokenize.punkt.PunktTokenizer` to sentence tokenize our text. The `.span_tokenize()` method returns `(start, end)` character indices for each sentence, which we pass as `text_spans` to the `SpeechSegment` objects that are to be aligned. See the documentation for a more [detailed explanation and tutorial](https://kb-labb.github.io/easyaligner/get-started/text_processing.html).
+
+## Documentation 
+
+Check out the documentation tutorials that cover common scenarios for forced alignment, and the API reference: 
+
+* [https://kb-labb.github.io/easyaligner/](https://kb-labb.github.io/easyaligner/)
+* [Tutorial 1](https://kb-labb.github.io/easyaligner/get-started/tutorial01.html): Align text and audio when the transcript covers all of the spoken content in the audio.
+* [Tutorial 2](https://kb-labb.github.io/easyaligner/get-started/tutorial02.html): Transcript covers only part of the spoken content in the audio, but we know the relevant audio region in advance. 
+* [Tutorial 3](https://kb-labb.github.io/easyaligner/get-started/tutorial03.html): Transcript covers only part of the spoken content in the audio, and we don't know the relevant audio region in advance. 
 
 ## Outputs
 
