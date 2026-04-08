@@ -121,6 +121,62 @@ h4 code {
     color: #f0f0f5;
 }
 
+// Tabset prev/next arrows
+.tabset-content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .tab-content {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+    }
+}
+
+.tabset-slide-track {
+    display: flex;
+
+    .tab-pane {
+        flex: 0 0 100%;
+        min-width: 0;
+        display: block !important; // override Bootstrap's display:none on inactive panes
+        padding: 0 1.25rem;
+        box-sizing: border-box;
+    }
+}
+
+.tabset-arrow {
+    background: #1e2230;
+    color: #5ebbf7;
+    border: 1px solid #2e3348;
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+        background: #2e3348;
+        border-color: #5ebbf7;
+    }
+
+    &:disabled {
+        opacity: 0.35;
+        cursor: default;
+    }
+}
+
+// Tabset active tab and panel border
+.panel-tabset .nav-link.active {
+    color: #5ebbf7;
+    background-color: #1e2230;
+    border-color: #1e2230 #1e2230 transparent;
+}
+
+.panel-tabset .tab-content {
+    border: none;
+}
+
 // Landing page cards
 .landing-card {
     background: #181b26;

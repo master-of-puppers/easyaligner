@@ -17,9 +17,9 @@ resources:
 
 <style>:root { --scrollable-max-height: 580px; }</style>
 
-`easyaligner` is a forced alignment library, aligning text transcripts to audio with precise word-level timestamps. The output can be segmented at any level of granularity (sentence, paragraph, etc.) while preserving the original text's formatting.
+`easyaligner` is a forced alignment library for aligning text transcripts with audio. The aligned outputs can be segmented at any level of granularity (sentence, paragraph, etc.), while preserving the original text's formatting. Outputs include precise word-level timestamps. 
 
-The library supports aligning from both ground-truth transcripts, as well as from ASR model outputs. See the library [`easytranscriber`](https://kb-labb.github.io/easytranscriber/) for an example of `easyaligner` being used to align ASR outputs. 
+The library supports aligning both from ground-truth transcripts, as well as from ASR (automatic speech transcription) model outputs. Check out the library [`easytranscriber`](https://kb-labb.github.io/easytranscriber/) for an example where `easyaligner` is used as a backend to align ASR outputs. 
 
 ## Installation
 
@@ -120,11 +120,36 @@ You can find out more about how it's used in [Tutorial 2](tutorial02.qmd) and [T
 :::
 :::
 
-We recommend checking out the tutorials, for more advanced use cases.
+## Tutorials
 
-* [Tutorial 1: Align text and audio](tutorial01.qmd): text transcript covers all the spoken content in the audio.
-* [Tutorial 2: Known audio region](tutorial02.qmd): text covers only part of the spoken content in the audio. But we know the relevant audio region in advance. 
-* [Tutorial 3: Locate relevant audio region](tutorial03.qmd): text covers only part of spoken content in the audio, and we don't know the relevant audio region in advance. 
+We recommend checking out the tutorials for more advanced use cases. The guides show how to handle cases where the ground-truth text only covers part of the spoken content in the audio, and where the relevant audio region is either known in advance, or unknown. 
+
+::: {#tutorial-tabset .panel-tabset .carousel-tabset}
+
+## Tutorial 1
+:::: {.callout-note title="Scenario"}
+[Align text and audio](tutorial01.qmd): text transcript covers all the spoken content in the audio.
+
+![](../_assets/scenario_full_coverage.svg){width="100%"}
+::::
+
+## Tutorial 2
+:::: {.callout-note title="Scenario"}
+[Known audio region](tutorial02.qmd): text covers only part of the spoken content in the audio. But we know the relevant audio region in advance.
+
+![](../_assets/scenario_partial_known.svg){width="100%"}
+::::
+
+## Tutorial 3
+:::: {.callout-note title="Scenario"}
+[Locate relevant audio region](tutorial03.qmd): text covers only part of spoken content in the audio, and we don't know the relevant audio region in advance.
+
+![](../_assets/scenario_partial_unknown.svg){width="100%"}
+::::
+
+:::
+
+<script src="tabset-carousel.js"></script>
 
 
 ## Results: Force aligned output
