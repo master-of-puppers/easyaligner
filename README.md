@@ -100,8 +100,8 @@ pipeline(
 )
 ```
 
-> [!NOTE]
-> `easyaligner` allows organizing the output at any level of granularity the user wishes (sentence, paragraph, or other), provided start and end character indices are provided for the boundaries of the desired segments. In the above example, we use an `nltk.tokenize.punkt.PunktTokenizer` to sentence tokenize our text. The `.span_tokenize()` method returns `(start, end)` character indices for each sentence, which we pass as `text_spans` to the `SpeechSegment` objects that are to be aligned. See the documentation for a more [detailed explanation and tutorial](https://kb-labb.github.io/easyaligner/get-started/text_processing.html).
+> [!TIP]
+> `easyaligner` allows organizing the output at any level of granularity the user wishes (sentence, paragraph, or other). In the above example, we use an `nltk.tokenize.punkt.PunktTokenizer` to sentence tokenize our text. See the [text processing documentation](https://kb-labb.github.io/easyaligner/get-started/text_processing.html) for a more detailed explanation, and a tutorial for implementing custom tokenizers.
 
 ## Documentation 
 
