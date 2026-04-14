@@ -431,8 +431,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <style>:root { --scrollable-max-height: 580px; }</style>
-<p><code>easyaligner</code> is a forced alignment library for aligning text transcripts with audio. The aligned outputs can be segmented at any level of granularity (sentence, paragraph, etc.), while preserving the original text’s formatting. Outputs include precise word-level timestamps.</p>
-<p>The library supports aligning both from ground-truth transcripts, as well as from ASR (automatic speech transcription) model outputs. Check out the library <a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a> for an example where <code>easyaligner</code> is used as a backend to align ASR outputs.</p>
+<p><code>easyaligner</code> is a forced alignment library for aligning text transcripts with audio. It is designed with a focus on ease of use, flexibility, and performance. The library can be used for a variety of applications, including</p>
+<ul>
+<li>Aligning e-texts with audiobook recordings to create interactive reading experiences (see the <a href="#interactive-demo">interactive demo</a> below).</li>
+<li>Aligning podcast transcripts to enable features like chapter navigation and keyword search.</li>
+<li>Aligning protocols and recordings of parliamentary debates for research and accessibility purposes.</li>
+<li>Fixing misaligned subtitles in videos, or creating new subtitles from transcripts.</li>
+<li>Creating large-scale speech recognition and speech synthesis datasets for AI model training.</li>
+</ul>
+<p>The aligned outputs can be segmented at any level of granularity (sentence, paragraph, etc.), while preserving the original text’s formatting. Outputs include precise word-level timestamps.</p>
+<p><code>easyaligner</code> supports aligning both from ground-truth transcripts, as well as from ASR (automatic speech transcription) model outputs. Check out the library <a href="https://kb-labb.github.io/easytranscriber/"><code>easytranscriber</code></a> for an example where <code>easyaligner</code> is used as a backend to align ASR outputs.</p>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
 <section id="with-gpu-support" class="level3">

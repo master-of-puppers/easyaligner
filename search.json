@@ -132,7 +132,7 @@
     "href": "get-started/overview.html",
     "title": "Overview",
     "section": "",
-    "text": "easyaligner is a forced alignment library for aligning text transcripts with audio. The aligned outputs can be segmented at any level of granularity (sentence, paragraph, etc.), while preserving the original text’s formatting. Outputs include precise word-level timestamps.\nThe library supports aligning both from ground-truth transcripts, as well as from ASR (automatic speech transcription) model outputs. Check out the library easytranscriber for an example where easyaligner is used as a backend to align ASR outputs.",
+    "text": "easyaligner is a forced alignment library for aligning text transcripts with audio. It is designed with a focus on ease of use, flexibility, and performance. The library can be used for a variety of applications, including\nThe aligned outputs can be segmented at any level of granularity (sentence, paragraph, etc.), while preserving the original text’s formatting. Outputs include precise word-level timestamps.\neasyaligner supports aligning both from ground-truth transcripts, as well as from ASR (automatic speech transcription) model outputs. Check out the library easytranscriber for an example where easyaligner is used as a backend to align ASR outputs.",
     "crumbs": [
       "Get Started",
       "Overview"
