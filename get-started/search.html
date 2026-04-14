@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,12 +76,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e7dbb8f863b84c19bcb2e5a1ede98857.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-f6ee90c206043331631aacf39cddea14.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-fb214f34a677ad44b3719ec1fc77bf86.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-329d11b416ebcec8b726c193ad9ddb8e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -430,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="quick-start" class="level2">
 <h2 class="anchored" data-anchor-id="quick-start">Quick start</h2>
-<p>After running the alignment pipeline, start the search server by pointing it at your alignment outputs and audio files:</p>
+<p>After running the alignment pipeline, start the search server by pointing it at the directories of your alignment outputs and audio files:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">easysearch</span> <span class="at">--alignments-dir</span> output/alignments <span class="at">--audio-dir</span> data/audio</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This will:</p>
 <ol type="1">
@@ -458,7 +458,7 @@ Note
 </section>
 <section id="how-indexing-works" class="level2">
 <h2 class="anchored" data-anchor-id="how-indexing-works">How indexing works</h2>
-<p><code>easysearch</code> automatically detects how file contents should be indexed depending on whether the output was created in the library <code>easyaligner</code> or <code>easytranscriber</code>. For <code>easyaligner</code> output, the audio does not undergo automatic transcription. Therefore, the VAD chunks are not going to contain any ASR generated text.</p>
+<p><code>easysearch</code> automatically detects how file contents should be indexed depending on whether the output was created in the library <code>easyaligner</code> or <code>easytranscriber</code>. For <code>easyaligner</code> output, the audio does not undergo automatic transcription. Therefore, VAD chunks are not going to contain any ASR generated text.</p>
 <p>The force aligned ground-truth texts will be in the <code>alignments</code> field. Each one of these alignment segments (sentence, paragraph, or other granularity, depending on your tokenizer) become searchable rows in the database.</p>
 <p>This means:</p>
 <ul>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,12 +76,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e7dbb8f863b84c19bcb2e5a1ede98857.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-f6ee90c206043331631aacf39cddea14.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-fb214f34a677ad44b3719ec1fc77bf86.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-329d11b416ebcec8b726c193ad9ddb8e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -452,7 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="download-text-and-audio" class="level2">
 <h2 class="anchored" data-anchor-id="download-text-and-audio">Download text and audio</h2>
 <p>We start by extracting the Chapter II text from Project Gutenberg.</p>
-<div id="9cd9f3d9" class="cell" data-execution_count="2">
+<div id="f698af9b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -467,7 +467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> match.group().strip()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Next, we download the multi-chapter audio file.</p>
-<div id="7341658e" class="cell" data-execution_count="3">
+<div id="a7a21afa" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> huggingface_hub <span class="im">import</span> snapshot_download</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -488,7 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1-transcribe-the-full-audio" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-transcribe-the-full-audio">Step 1: Transcribe the full audio</h2>
 <p>Because we do not know where Chapter II begins and ends, we first transcribe the entire audio file. This gives us word-level timestamps for everything spoken — including the chapters we don’t care about.</p>
-<div id="8dfa1583" class="cell" data-execution_count="4">
+<div id="51bd7079" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.text <span class="im">import</span> load_tokenizer</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easytranscriber.pipelines <span class="im">import</span> pipeline <span class="im">as</span> transcription_pipeline</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easytranscriber.text.normalization <span class="im">import</span> text_normalizer <span class="im">as</span> easytranscriber_text_normalizer</span>
@@ -509,7 +509,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The transcription output is written to <code>output/alignments/</code>. We read it back as an <code>AudioMetadata</code> object:</p>
-<div id="4677abd7" class="cell" data-execution_count="5">
+<div id="8267f5f4" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.data.utils <span class="im">import</span> read_json</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>alignment_json <span class="op">=</span> Path(<span class="st">"output/alignments"</span>) <span class="op">/</span> filepath.with_suffix(<span class="st">".json"</span>).name</span>
@@ -518,8 +518,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="step-2-locate-chapter-ii-with-fuzzy-matching" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-locate-chapter-ii-with-fuzzy-matching">Step 2: Locate Chapter II with fuzzy matching</h2>
-<p>With ASR word-level timestamps in hand, we search for Chapter II’s ground-truth text within the transcription. <code>fuzzy_match</code> handles this in one call: it concatenates all word segments into a haystack and uses <a href="https://github.com/maxbachmann/RapidFuzz"><code>rapidfuzz</code></a> to find the best matching region.</p>
-<div id="b01c3abb" class="cell" data-execution_count="6">
+<p>With ASR word-level timestamps in hand, we search for Chapter II’s ground-truth text within the ASR transcription. The function <code>fuzzy_match</code> handles this in one call. It concatenates all timestamped words from the ASR output, uses <a href="https://github.com/maxbachmann/RapidFuzz"><code>rapidfuzz</code></a> to find the best matching region, and returns the word indices for the match.</p>
+<div id="fdea8b47" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.text <span class="im">import</span> fuzzy_match</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> fuzzy_match(needle<span class="op">=</span>text, haystack<span class="op">=</span>audio_meta.speeches)</span>
@@ -534,11 +534,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Match timestamps: </span><span class="sc">{</span>match<span class="sc">.</span>start<span class="sc">:.1f}</span><span class="ss">s – </span><span class="sc">{</span>match<span class="sc">.</span>end<span class="sc">:.1f}</span><span class="ss">s"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Match score:    92.8 / 100
-Match indices (word-level):  1054 (start) – 3080 (end)
-Match timestamps: 424.8s – 1197.2s</code></pre>
+Match indices (word-level):  1054 (start) – 3081 (end)
+Match timestamps: 424.8s – 1193.2s</code></pre>
 </div>
 </div>
-<p>The returned <code>FuzzyMatch</code> object carries the discovered timestamps (<code>match.start</code>, <code>match.end</code>) as well as the word-level indices into the transcription for finer-grained inspection.</p>
+<p>The returned <a href="../reference/FuzzyMatch.html"><code>FuzzyMatch</code></a> object contains the discovered timestamps (<code>match.start</code>, <code>match.end</code>), as well as the word-level indices.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -559,8 +559,8 @@ Tip
 </section>
 <section id="step-3-align-text-and-audio" class="level2">
 <h2 class="anchored" data-anchor-id="step-3-align-text-and-audio">Step 3: Align text and audio</h2>
-<p>With approximate start and end times discovered, we run forced alignment using the ground-truth text. This produces precise word-level timestamps tied to the original text formatting, as in <a href="../get-started/tutorial01.html">Tutorial 1</a>.</p>
-<div id="ddce98b6" class="cell" data-execution_count="7">
+<p>With approximate start and end times discovered, we run forced alignment using the ground-truth text and the relevant audio region. This step produces precise word-level timestamps based on the original text, while maintaining its formatting, as in <a href="../get-started/tutorial01.html">Tutorial 1</a>.</p>
+<div id="8c565da0" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCTC, Wav2Vec2Processor</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> easyaligner.data.datamodel <span class="im">import</span> SpeechSegment</span>
@@ -615,11 +615,11 @@ Note
 <p><code>start_wildcard=True</code> and <code>end_wildcard=True</code> allow the forced aligner to tolerate a small amount of extra speech at the region boundaries. Useful here because the fuzzy match returns approximate rather than exact timestamps.</p>
 </div>
 </div>
-<p>The aligned output is written to <code>output/alignments/</code> with sentence-level segments and word-level timestamps, tied to the original Chapter II text.</p>
+<p>The aligned output is written to <code>output/alignments/</code>. The output contains sentence-level segments and word-level timestamps from the original Chapter II text.</p>
 </section>
 <section id="result-force-aligned-output" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="result-force-aligned-output">Result: Force aligned output</h2>
-<p>The text transcript below the audio player is highlighted in sync with the words spoken in the audio.</p>
+<p>Once alignment is done, we can create an interactive demo to visualize the results. It plays back the audio with synchronized text highlighting. Note how each word in the transcript below is highlighted as it is spoken.</p>
 <p>The fuzzy match located Chapter II starting at approximately 7:05 in the recording. The text will only be highlighted when the audio slider is within that region.</p>
 <div id="audio-player" class="audio-card">
 <div class="audio-card-label">
