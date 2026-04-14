@@ -19,7 +19,7 @@ resources:
 
 `easyaligner` is a forced alignment library for aligning text transcripts with audio. It is designed with a focus on ease of use, flexibility, and performance. The library can be used for a variety of applications, including
 
-* Aligning e-texts with audiobook recordings to create interactive reading experiences (see the [interactive demo](#interactive-demo) below).
+* Aligning e-texts with audiobook recordings to create interactive reading experiences (see the [interactive demo](#results-force-aligned-output) below).
 * Aligning podcast transcripts to enable features like chapter navigation and keyword search.
 * Aligning protocols and recordings of parliamentary debates for research and accessibility purposes. 
 * Fixing misaligned subtitles in videos, or creating new subtitles from transcripts.
