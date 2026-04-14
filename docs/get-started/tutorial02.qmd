@@ -152,7 +152,7 @@ If your audio and transcript are multilingual, you can try using the Massively M
 
 ## Result: Force aligned output
 
-The text transcript below the audio player is highlighted in sync with the words spoken in the audio.  
+Once alignment is done, we can create an interactive demo to visualize the results. It plays back the audio with synchronized text highlighting. Note how each word in the transcript below is highlighted as it is spoken.
 
 Keep in mind that Chapter II starts at 7:06 and ends at 19:54 in the recording. The text will only be highlighted when the audio slider is between those timestamps.
 

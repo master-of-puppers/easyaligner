@@ -56,7 +56,7 @@ text = match.group().strip()
 Next, we download the multi-chapter audio file.
 
 ```{python}
-#| output: false
+# | output: false
 from pathlib import Path
 from huggingface_hub import snapshot_download
 
@@ -111,7 +111,7 @@ audio_meta = read_json(alignment_json)
 
 ## Step 2: Locate Chapter II with fuzzy matching
 
-With ASR word-level timestamps in hand, we search for Chapter II's ground-truth text within the transcription. `fuzzy_match` handles this in one call: it concatenates all word segments into a haystack and uses [`rapidfuzz`](https://github.com/maxbachmann/RapidFuzz) to find the best matching region.
+With ASR word-level timestamps in hand, we search for Chapter II's ground-truth text within the ASR transcription. The function `fuzzy_match` handles this in one call. It concatenates all timestamped words from the ASR output, uses [`rapidfuzz`](https://github.com/maxbachmann/RapidFuzz) to find the best matching region, and returns the word indices for the match. 
 
 ```{python}
 from easyaligner.text import fuzzy_match
@@ -128,7 +128,7 @@ print(f"Match indices (word-level):  {match.start_index} (start) – {match.end_
 print(f"Match timestamps: {match.start:.1f}s – {match.end:.1f}s")
 ```
 
-The returned `FuzzyMatch` object carries the discovered timestamps (`match.start`, `match.end`) as well as the word-level indices into the transcription for finer-grained inspection.
+The returned [`FuzzyMatch`](../reference/FuzzyMatch.qmd) object contains the discovered timestamps (`match.start`, `match.end`), as well as the word-level indices. 
 
 ::: {.callout-tip}
 To inspect the matched words, pass `return_words=True`. This can be useful for debugging and sanity checking. 
@@ -143,7 +143,7 @@ print(words[match.end_index])
 
 ## Step 3: Align text and audio
 
-With approximate start and end times discovered, we run forced alignment using the ground-truth text. This produces precise word-level timestamps tied to the original text formatting, as in [Tutorial 1](tutorial01.qmd).
+With approximate start and end times discovered, we run forced alignment using the ground-truth text and the relevant audio region. This step produces precise word-level timestamps based on the original text, while maintaining its formatting, as in [Tutorial 1](tutorial01.qmd).
 
 ```{python}
 #| output: false
@@ -193,11 +193,11 @@ pipeline(
 `start_wildcard=True` and `end_wildcard=True` allow the forced aligner to tolerate a small amount of extra speech at the region boundaries. Useful here because the fuzzy match returns approximate rather than exact timestamps.
 :::
 
-The aligned output is written to `output/alignments/` with sentence-level segments and word-level timestamps, tied to the original Chapter II text.
+The aligned output is written to `output/alignments/`. The output contains sentence-level segments and word-level timestamps from the original Chapter II text.
 
 ## Result: Force aligned output
 
-The text transcript below the audio player is highlighted in sync with the words spoken in the audio.
+Once alignment is done, we can create an interactive demo to visualize the results. It plays back the audio with synchronized text highlighting. Note how each word in the transcript below is highlighted as it is spoken.
 
 The fuzzy match located Chapter II starting at approximately 7:05 in the recording. The text will only be highlighted when the audio slider is within that region.
 

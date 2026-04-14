@@ -23,7 +23,7 @@ pip install easytranscriber[search]
 
 ## Quick start
 
-After running the alignment pipeline, start the search server by pointing it at your alignment outputs and audio files:
+After running the alignment pipeline, start the search server by pointing it at the directories of your alignment outputs and audio files:
 
 ```bash
 easysearch --alignments-dir output/alignments --audio-dir data/audio
@@ -46,7 +46,7 @@ Some browsers block autoplay by default. If audio doesn't start automatically wh
 
 ## How indexing works
 
-`easysearch` automatically detects how file contents should be indexed depending on whether the output was created in the library `easyaligner` or `easytranscriber`. For `easyaligner` output, the audio does not undergo automatic transcription. Therefore, the VAD chunks are not going to contain any ASR generated text. 
+`easysearch` automatically detects how file contents should be indexed depending on whether the output was created in the library `easyaligner` or `easytranscriber`. For `easyaligner` output, the audio does not undergo automatic transcription. Therefore, VAD chunks are not going to contain any ASR generated text. 
 
 The force aligned ground-truth texts will be in the `alignments` field. Each one of these alignment segments (sentence, paragraph, or other granularity, depending on your tokenizer) become searchable rows in the database.
 

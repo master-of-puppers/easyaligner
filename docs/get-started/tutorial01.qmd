@@ -63,15 +63,23 @@ print(text)
 Next, we download the audio of the first chapter and save it to disk.
 
 ```{python}
-#| output: false
+# | output: false
+from pathlib import Path
 from huggingface_hub import snapshot_download
+
+filepath_pattern = "tale-of-two-cities_short-en/taleoftwocities_01_dickens_64kb_trimmed.mp3"
 
 snapshot_download(
     "Lauler/easytranscriber_tutorials",
     repo_type="dataset",
     local_dir="data/tutorials",
-    allow_patterns="tale-of-two-cities_short-en/*",
+    allow_patterns=filepath_pattern,
 )
+
+# File(s) to align
+filepath = Path("data/tutorials") / filepath_pattern
+audio_dir = filepath.parent
+audio_files = [filepath.name]
 ```
 
 Here's the audio we'll be aligning with the text:
@@ -91,8 +99,6 @@ The process for aligning the text and audio looks similar to the simple example 
 
 ```{python}
 # | output: false
-from pathlib import Path
-
 from transformers import (
     AutoModelForCTC,
     Wav2Vec2Processor,
@@ -115,10 +121,6 @@ speeches = [[SpeechSegment(speech_id=0, text=text, text_spans=span_list, start=N
 model_vad = load_vad_model()
 model = AutoModelForCTC.from_pretrained("facebook/wav2vec2-base-960h").to("cuda").half()
 processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
-
-# File(s) to align
-audio_dir = "data/tutorials/tale-of-two-cities_short-en"
-audio_files = [file.name for file in Path(audio_dir).glob("*")]
 
 pipeline(
     vad_model=model_vad,
@@ -145,7 +147,7 @@ If your audio and transcript are multilingual, you can try using the Massively M
 
 ## Result: Force aligned output
 
-The text transcript below the audio player is highlighted in sync with the words spoken in the audio.
+Once alignment is done, we can create an interactive demo to visualize the results. It plays back the audio with synchronized text highlighting. Note how each word in the transcript below is highlighted as it is spoken.
 
 <div id="audio-player" class="audio-card">
   <div class="audio-card-label">Sample audio</div>

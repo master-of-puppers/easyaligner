@@ -44,7 +44,7 @@ Below is a minimal example of the simplest alignment scenario: a text transcript
 The example below uses a 57-second snippet from a LibriVox recording of [A Tale of Two Cities](https://librivox.org/a-tale-of-two-cities-by-charles-dickens-2/), corresponding to the first paragraph of Chapter I. The text used for alignment is assigned directly to the `text` variable as a string.
 
 ```{python}
-#| output: false
+# | output: false
 from pathlib import Path
 
 from transformers import (
@@ -59,12 +59,20 @@ from easyaligner.pipelines import pipeline
 from easyaligner.text import text_normalizer
 from easyaligner.vad.pyannote import load_vad_model
 
+filepath_pattern = "tale-of-two-cities_align-en/taleoftwocities_01_dickens_64kb_align.mp3"
+
+# Download mp3 from Hugging Face Hub
 snapshot_download(
     "Lauler/easytranscriber_tutorials",
     repo_type="dataset",
     local_dir="data/tutorials",
-    allow_patterns="tale-of-two-cities_align-en/*", 
+    allow_patterns=filepath_pattern,
 )
+
+# File(s) to align
+filepath = Path("data/tutorials") / filepath_pattern
+audio_dir = filepath.parent
+audio_files = [filepath.name]
 
 text = """
 It was the best of times, it was the worst of times, it was the age of
@@ -81,26 +89,21 @@ evil, in the superlative degree of comparison only.
 text = text.strip()
 
 # The alignments will be organized according to how the text is tokenized
-tokenizer = load_tokenizer(language="english") # sentence tokenizer 
-span_list = list(tokenizer.span_tokenize(text)) # start, end character indices for each sentence
+tokenizer = load_tokenizer(language="english")  # sentence tokenizer
+span_list = list(tokenizer.span_tokenize(text))  # start, end character indices for each sentence
 speeches = [[SpeechSegment(speech_id=0, text=text, text_spans=span_list, start=None, end=None)]]
 
 # Load models and run pipeline
 model_vad = load_vad_model()
-model = (
-    AutoModelForCTC.from_pretrained("facebook/wav2vec2-base-960h").to("cuda").half()
-)
+model = AutoModelForCTC.from_pretrained("facebook/wav2vec2-base-960h").to("cuda").half()
 processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
-
-# File(s) to align
-audio_files = [file.name for file in Path("data/tutorials/tale-of-two-cities_align-en").glob("*")]
 
 pipeline(
     vad_model=model_vad,
     emissions_model=model,
     processor=processor,
     audio_paths=audio_files,
-    audio_dir="data/tutorials/tale-of-two-cities_align-en",
+    audio_dir=audio_dir,
     speeches=speeches,
     alignment_strategy="speech",
     text_normalizer_fn=text_normalizer,
