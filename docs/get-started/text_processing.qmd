@@ -6,7 +6,7 @@ format:
     toc: true
     toc-depth: 3
 reference-location: margin
-freeze: true
+freeze: auto
 conda:
     environment: easywhisper
 ---

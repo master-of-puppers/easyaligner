@@ -6,7 +6,7 @@ format:
     toc: true
     toc-depth: 3
 reference-location: margin
-freeze: true
+freeze: auto
 ---
 
 `easysearch` is a lightweight search interface for browsing and querying alignment outputs, built into the companion package [`easytranscriber`](https://kb-labb.github.io/easytranscriber/). It indexes the alignment JSON files into a SQLite database with full-text search and serves a web UI for searching, browsing documents, and playing back audio with synchronized transcript highlighting.
