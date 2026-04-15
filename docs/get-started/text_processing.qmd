@@ -88,6 +88,7 @@ Here is the default normalization function, for reference:
 ```{python}
 import unicodedata
 
+
 def text_normalizer(text: str):
     """
     Default text normalization function.
@@ -265,3 +266,5 @@ pipeline(
     tokenizer=chapter_tokenizer,
 )
 ```
+
+Try it for yourself!
