@@ -6,8 +6,9 @@
 
 * **GPU accelerated forced alignment**. Uses [Pytorch's forced alignment API](https://docs.pytorch.org/audio/main/tutorials/ctc_forced_alignment_api_tutorial.html) with a GPU based implementation of the Viterbi algorithm. Enables fast and memory-efficient forced alignment of long audio segments ([Pratap et al., 2024](https://jmlr.org/papers/volume25/23-1318/23-1318.pdf#page=8)). 
 * **Flexible text normalization for improved alignment quality**. Users can supply custom regex-based text normalization functions to preprocess transcripts before alignment. A mapping from the original text to the normalized text is maintained internally. All of the applied normalizations and transformations are consequently **non-destructive and reversible after alignment**.  
-* **Batch processing support for emission extraction**. `easyaligner` supports batched inference for wav2vec2-based models, keeping track of non-padded logits when doing alignment.   
-* **Modular pipeline design**. The library has separate, independent, pipelines for VAD, emission extraction, and forced alignment. Users can run everything end-to-end, or run the separate stages individually. 
+* **Batch processing support for emission extraction**. `easyaligner` supports batched inference for wav2vec2-based models, keeping track of non-padded logits when doing alignment. 
+
+Check out the [documentation](https://kb-labb.github.io/easyaligner/) for more details and tutorials!
 
 ## Installation
 
@@ -47,12 +48,20 @@ from easyaligner.pipelines import pipeline
 from easyaligner.text import text_normalizer
 from easyaligner.vad.pyannote import load_vad_model
 
+filepath_pattern = "tale-of-two-cities_align-en/taleoftwocities_01_dickens_64kb_align.mp3"
+
+# Download mp3 from Hugging Face Hub
 snapshot_download(
     "Lauler/easytranscriber_tutorials",
     repo_type="dataset",
     local_dir="data/tutorials",
-    allow_patterns="tale-of-two-cities_align-en/*", 
+    allow_patterns=filepath_pattern,
 )
+
+# File(s) to align
+filepath = Path("data/tutorials") / filepath_pattern
+audio_dir = filepath.parent
+audio_files = [filepath.name]
 
 text = """
 It was the best of times, it was the worst of times, it was the age of
@@ -69,26 +78,21 @@ evil, in the superlative degree of comparison only.
 text = text.strip()
 
 # The alignments will be organized according to how the text is tokenized
-tokenizer = load_tokenizer(language="english") # sentence tokenizer 
-span_list = list(tokenizer.span_tokenize(text)) # start, end character indices for each sentence
+tokenizer = load_tokenizer(language="english")  # sentence tokenizer
+span_list = list(tokenizer.span_tokenize(text))  # start, end character indices for each sentence
 speeches = [[SpeechSegment(speech_id=0, text=text, text_spans=span_list, start=None, end=None)]]
 
 # Load models and run pipeline
 model_vad = load_vad_model()
-model = (
-    AutoModelForCTC.from_pretrained("facebook/wav2vec2-base-960h").to("cuda").half()
-)
+model = AutoModelForCTC.from_pretrained("facebook/wav2vec2-base-960h").to("cuda").half()
 processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
-
-# File(s) to align
-audio_files = [file.name for file in Path("data/tutorials/tale-of-two-cities_align-en").glob("*")]
 
 pipeline(
     vad_model=model_vad,
     emissions_model=model,
     processor=processor,
     audio_paths=audio_files,
-    audio_dir="data/tutorials/tale-of-two-cities_align-en",
+    audio_dir=audio_dir,
     speeches=speeches,
     alignment_strategy="speech",
     text_normalizer_fn=text_normalizer,
@@ -127,3 +131,16 @@ The `output/emissions` directory will, in addition to the JSON files, also conta
 
 All intermediate files can safely be deleted, assuming there is no need to re-run the pipeline from a specific intermediate stage. 
 
+## Citation
+
+If you use `easyaligner` in your research, consider citing the following blog post:
+
+```
+@online{rekathati2026,
+  author = {Rekathati, Faton},
+  title = {Easyaligner: {Forced} Alignment of Text and Audio, Made Easy},
+  date = {2026-04-08},
+  url = {https://kb-labb.github.io/posts/2026-04-08-easyaligner/},
+  langid = {en}
+}
+```
