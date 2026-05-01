@@ -8,7 +8,6 @@ from easyaligner.data.collators import metadata_collate_fn
 from easyaligner.data.datamodel import SpeechSegment
 from easyaligner.data.dataset import JSONMetadataDataset
 from easyaligner.pipelines import (
-    align_speech,
     alignment_pipeline,
     emissions_pipeline,
     vad_pipeline,
@@ -48,7 +47,6 @@ vad_outputs = vad_pipeline(
     chunk_size=30,
     sample_rate=16000,
     metadata=None,
-    batch_size=1,
     num_workers=1,
     prefetch_factor=2,
     save_json=True,
@@ -66,7 +64,6 @@ emissions_output = emissions_pipeline(
     sample_rate=16000,
     chunk_size=30,
     alignment_strategy="speech",
-    batch_size_files=1,
     num_workers_files=2,
     prefetch_factor_files=2,
     batch_size_features=8,
@@ -108,22 +105,5 @@ alignments = alignment_pipeline(
     return_alignments=True,
     delete_emissions=False,
     remove_wildcards=True,
-    device="cuda",
-)
-
-
-mapping = align_speech(
-    dataloader=audiometa_loader,
-    text_normalizer_fn=text_normalizer,
-    processor=processor,
-    tokenizer=None,
-    emissions_dir="output/emissions",
-    output_dir="output/alignments",
-    start_wildcard=True,
-    end_wildcard=True,
-    blank_id=0,
-    word_boundary="|",
-    chunk_size=30,
-    delete_emissions=False,
     device="cuda",
 )

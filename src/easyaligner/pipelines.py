@@ -44,7 +44,6 @@ def vad_pipeline_generator(
     chunk_size: int = 30,
     sample_rate: int = 16000,
     metadata: list[dict] | None = None,
-    batch_size: int = 1,
     num_workers: int = 1,
     prefetch_factor: int = 2,
     save_json: bool = True,
@@ -73,8 +72,6 @@ def vad_pipeline_generator(
         The sample rate to resample the audio to before running VAD.
     metadata : list[dict] or None, optional
         Optional list of additional file level metadata to include.
-    batch_size : int, default 1
-        The batch size for the DataLoader.
     num_workers : int, default 1
         The number of workers for the DataLoader.
     prefetch_factor : int, default 2
@@ -99,7 +96,7 @@ def vad_pipeline_generator(
     )
     vad_dataloader = torch.utils.data.DataLoader(
         vad_dataset,
-        batch_size=batch_size,
+        batch_size=1,
         shuffle=False,
         collate_fn=vad_collate_fn,
         num_workers=num_workers,
@@ -163,7 +160,6 @@ def vad_pipeline(
     chunk_size: int = 30,
     sample_rate: int = 16000,
     metadata: list[dict] | None = None,
-    batch_size: int = 1,
     num_workers: int = 1,
     prefetch_factor: int = 2,
     save_json: bool = True,
@@ -192,8 +188,6 @@ def vad_pipeline(
         The sample rate to resample the audio to before running VAD.
     metadata : list[dict] or None, optional
         Optional list of additional file level metadata to include.
-    batch_size : int, default 1
-        The batch size for the DataLoader.
     num_workers : int, default 1
         The number of workers for the DataLoader.
     prefetch_factor : int, default 2
@@ -222,7 +216,6 @@ def vad_pipeline(
         chunk_size=chunk_size,
         sample_rate=sample_rate,
         metadata=metadata,
-        batch_size=batch_size,
         num_workers=num_workers,
         prefetch_factor=prefetch_factor,
         save_json=save_json,
@@ -249,7 +242,6 @@ def emissions_pipeline_generator(
     sample_rate: int = 16000,
     chunk_size: int = 30,
     alignment_strategy: str = "speech",
-    batch_size_files: int = 1,
     num_workers_files: int = 1,
     prefetch_factor_files: int = 2,
     batch_size_features: int = 8,
@@ -287,8 +279,6 @@ def emissions_pipeline_generator(
         Strategy for aligning features to text. One of 'speech' or 'chunk'.
         If `speech`, audio is split into `chunk_size` sized chunks based on SpeechSegments.
         If `chunk`, audio is taken from existing VAD chunks.
-    batch_size_files : int, default 1
-        Batch size for the file DataLoader.
     num_workers_files : int, default 1
         Number of workers for the file DataLoader.
     prefetch_factor_files : int, default 2
@@ -333,7 +323,7 @@ def emissions_pipeline_generator(
 
     file_dataloader = torch.utils.data.DataLoader(
         file_dataset,
-        batch_size=batch_size_files,
+        batch_size=1,
         shuffle=False,
         collate_fn=audiofile_collate_fn,
         num_workers=num_workers_files,
@@ -372,7 +362,7 @@ def emissions_pipeline_generator(
         speech_ids = []
 
         for batch in feature_dataloader:
-            features = batch["features"].half().to(device)
+            features = batch["features"].to(device=device, dtype=model.dtype)
 
             with torch.inference_mode():
                 logits = model(features).logits
@@ -420,7 +410,6 @@ def emissions_pipeline(
     sample_rate: int = 16000,
     chunk_size: int = 30,
     alignment_strategy: str = "speech",
-    batch_size_files: int = 1,
     num_workers_files: int = 1,
     prefetch_factor_files: int = 2,
     batch_size_features: int = 8,
@@ -455,8 +444,6 @@ def emissions_pipeline(
         Strategy for aligning features to text. One of 'speech' or 'chunk'.
         If `speech`, audio is split into `chunk_size` sized chunks based on SpeechSegments.
         If `chunk`, audio is taken from existing VAD chunks.
-    batch_size_files : int, default 1
-        Batch size for the file DataLoader.
     num_workers_files : int, default 1
         Number of workers for the file DataLoader.
     prefetch_factor_files : int, default 2
@@ -495,7 +482,6 @@ def emissions_pipeline(
         sample_rate=sample_rate,
         chunk_size=chunk_size,
         alignment_strategy=alignment_strategy,
-        batch_size_files=batch_size_files,
         num_workers_files=num_workers_files,
         prefetch_factor_files=prefetch_factor_files,
         batch_size_features=batch_size_features,
@@ -773,7 +759,6 @@ def pipeline(
     word_boundary: str = "|",
     indent: int = 2,
     ndigits: int = 5,
-    batch_size_files: int = 1,
     num_workers_files: int = 2,
     prefetch_factor_files: int = 1,
     batch_size_features: int = 8,
@@ -839,8 +824,6 @@ def pipeline(
         Indentation level for saved JSON files. `None` to disable pretty formatting.
     ndigits : int, default 5
         Number of decimal digits to round the alignment times and scores to.
-    batch_size_files : int, default 1
-        Batch size for the file DataLoader.
     num_workers_files : int, default 2
         Number of workers for the file DataLoader.
     prefetch_factor_files : int, default 1
@@ -887,7 +870,6 @@ def pipeline(
         speeches=speeches,
         chunk_size=chunk_size,
         sample_rate=sample_rate,
-        batch_size=batch_size_files,
         num_workers=num_workers_files,
         prefetch_factor=prefetch_factor_files,
         save_json=save_json,
@@ -909,7 +891,6 @@ def pipeline(
         sample_rate=sample_rate,
         chunk_size=chunk_size,
         alignment_strategy=alignment_strategy,
-        batch_size_files=batch_size_files,
         num_workers_files=num_workers_files,
         prefetch_factor_files=prefetch_factor_files,
         batch_size_features=batch_size_features,
@@ -929,7 +910,7 @@ def pipeline(
     )
     json_dataloader = torch.utils.data.DataLoader(
         json_dataset,
-        batch_size=batch_size_files,
+        batch_size=1,
         shuffle=False,
         collate_fn=metadata_collate_fn,
         num_workers=num_workers_files,
