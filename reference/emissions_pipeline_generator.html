@@ -542,19 +542,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    sample_rate<span class="op">=</span><span class="dv">16000</span>,</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    chunk_size<span class="op">=</span><span class="dv">30</span>,</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    alignment_strategy<span class="op">=</span><span class="st">'speech'</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    batch_size_files<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    num_workers_files<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    prefetch_factor_files<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    batch_size_features<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    num_workers_features<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    streaming<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    save_json<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    save_msgpack<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    save_emissions<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    return_emissions<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    output_dir<span class="op">=</span><span class="st">'output/emissions'</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    device<span class="op">=</span><span class="st">'cuda'</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    num_workers_files<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    prefetch_factor_files<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    batch_size_features<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    num_workers_features<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    streaming<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    save_json<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    save_msgpack<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    save_emissions<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    return_emissions<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    output_dir<span class="op">=</span><span class="st">'output/emissions'</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    device<span class="op">=</span><span class="st">'cuda'</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Run emissions extraction pipeline on the given audio files and save results to file.</p>
 <p>If <code>return_emissions</code> is True, function becomes a generator that yields tuples of (metadata, emissions) for each audio file.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
@@ -618,72 +617,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>"speech"</code></td>
 </tr>
 <tr class="even">
-<td>batch_size_files</td>
-<td>int</td>
-<td>Batch size for the file DataLoader.</td>
-<td><code>1</code></td>
-</tr>
-<tr class="odd">
 <td>num_workers_files</td>
 <td>int</td>
 <td>Number of workers for the file DataLoader.</td>
 <td><code>1</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>prefetch_factor_files</td>
 <td>int</td>
 <td>Prefetch factor for the file DataLoader.</td>
 <td><code>2</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>batch_size_features</td>
 <td>int</td>
 <td>Batch size for the feature DataLoader.</td>
 <td><code>8</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>num_workers_features</td>
 <td>int</td>
 <td>Number of workers for the feature DataLoader.</td>
 <td><code>4</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>streaming</td>
 <td>bool</td>
 <td>Whether to use streaming audio files.</td>
 <td><code>False</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>save_json</td>
 <td>bool</td>
 <td>Whether to save the emissions output as JSON files.</td>
 <td><code>True</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>save_msgpack</td>
 <td>bool</td>
 <td>Whether to save the emissions output as Msgpack files.</td>
 <td><code>False</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>save_emissions</td>
 <td>bool</td>
 <td>Whether to save the raw emissions as .npy files.</td>
 <td><code>True</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>return_emissions</td>
 <td>bool</td>
 <td>Whether to return the emissions as a list of numpy arrays.</td>
 <td><code>False</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>output_dir</td>
 <td>str</td>
 <td>Directory to save the output files if saving is enabled.</td>
 <td><code>"output/emissions"</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>device</td>
 <td>str</td>
 <td>Device to run the model on (e.g.&nbsp;“cuda” or “cpu”).</td>
