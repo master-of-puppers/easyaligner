@@ -1,7 +1,5 @@
 import torch
 
-from easyaligner.vad.pyannote import VoiceActivitySegmentation
-from easyaligner.vad.pyannote import run_vad_pipeline as run_vad_pipeline_pyannote
 from easyaligner.vad.silero import run_vad_pipeline as run_vad_pipeline_silero
 from easyaligner.vad.utils import encode_metadata
 
@@ -46,7 +44,10 @@ def run_vad(
         audio_path=audio_path, audio_dir=audio_dir, speeches=speeches, metadata=metadata
     )
 
-    if isinstance(model, VoiceActivitySegmentation):
+    model_module = getattr(type(model), "__module__", "")
+    if model_module.startswith("easyaligner.vad.pyannote"):
+        from easyaligner.vad.pyannote import run_vad_pipeline as run_vad_pipeline_pyannote
+
         vad_pipeline = run_vad_pipeline_pyannote
     else:
         vad_pipeline = run_vad_pipeline_silero

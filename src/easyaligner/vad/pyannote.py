@@ -61,7 +61,7 @@ def load_vad_model(
     torch.serialization.add_safe_globals(
         [torch.torch_version.TorchVersion, Specifications, Problem, Resolution]
     )
-    vad_model = Model.from_pretrained(model_name_or_path).to(device)
+    vad_model = Model.from_pretrained(model_name_or_path, token=token).to(device)
     hyperparameters = {
         "min_duration_on": min_duration_on,
         "min_duration_off": min_duration_off,

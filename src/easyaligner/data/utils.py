@@ -66,5 +66,5 @@ def read_json(json_path: str | Path) -> AudioMetadata:
     AudioMetadata
         Parsed AudioMetadata object.
     """
-    with open(json_path, "r") as f:
+    with open(json_path, "r", encoding="utf-8") as f:
         return msgspec.json.decode(f.read(), type=AudioMetadata)

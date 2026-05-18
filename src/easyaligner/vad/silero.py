@@ -42,6 +42,9 @@ def merge_chunks(segments, chunk_size=30):
         List of merged chunks, where each chunk is a dictionary with
         "start", "end", and "segments" keys.
     """
+    if not segments:
+        return []
+
     current_start = segments[0]["start"]
     current_end = segments[0]["end"]
     merged_segments = []
@@ -101,6 +104,9 @@ def run_vad_pipeline(
         )
 
         vad_segments = merge_chunks(vad_segments, chunk_size=chunk_size)
+        if not vad_segments:
+            metadata.speeches = []
+            return metadata
         segments = encode_vad_segments(vad_segments)
 
         # Create a single SpeechSegment based on where speech was detected
@@ -121,6 +127,9 @@ def run_vad_pipeline(
                 return_seconds=True,
             )
             vad_segments = merge_chunks(vad_segments, chunk_size=chunk_size)
+            if not vad_segments:
+                speech.chunks = []
+                continue
             # Add speech.start offset to each segment
             vad_segments = [
                 {

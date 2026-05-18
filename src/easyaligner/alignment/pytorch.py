@@ -1,4 +1,5 @@
 import logging
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -84,7 +85,13 @@ def align_pytorch(
         )
         emissions = torch.cat((emissions, star_dim), 2)  # Add wildcard star token to the emissions
 
-    alignments, scores = F.forced_align(emissions, targets, blank=blank_id)
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=r".*torchaudio\.functional\._alignment\.forced_align has been deprecated.*",
+            category=UserWarning,
+        )
+        alignments, scores = F.forced_align(emissions, targets, blank=blank_id)
     alignments, scores = alignments[0], scores[0]  # remove batch dimension for simplicity
     # scores = scores.exp()  # convert back to probability
     return alignments, scores
@@ -743,6 +750,7 @@ def _find_segment_boundaries(
     start_extended_idx = None
     end_extended_idx = None
     segment_tokens = []
+    original_token_cursor = token_cursor
 
     while token_cursor < len(mapping):
         token = mapping[token_cursor]
@@ -779,6 +787,9 @@ def _find_segment_boundaries(
         # Found both boundaries
         if start_time is not None and end_time is not None:
             break
+
+    if start_time is None and end_time is None:
+        return None, None, None, None, [], original_token_cursor
 
     return start_time, end_time, start_extended_idx, end_extended_idx, segment_tokens, token_cursor
 

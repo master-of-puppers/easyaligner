@@ -48,7 +48,7 @@ class JSONMetadataDataset(Dataset):
         self.decoder = msgspec.json.Decoder(type=AudioMetadata)
         json_path = self.json_paths[idx]
         logger.info(f"Loading metadata from {json_path}")
-        with open(json_path, "r") as f:
+        with open(json_path, "r", encoding="utf-8") as f:
             return self.decoder.decode(f.read())
 
 

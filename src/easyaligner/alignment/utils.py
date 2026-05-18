@@ -231,17 +231,25 @@ def segment_speech_probs(probs_list: list[np.ndarray], speech_ids: list[str] | l
     np.ndarray
         Probabilities for the speech segment.
     """
-    # Count the number of chunks per speech id
-    speech_chunk_counts = [
-        (key, sum(1 for i in group)) for key, group in itertools.groupby(speech_ids)
-    ]
-    # Create a list of indices where each speech chunk starts
-    split_indices = list(itertools.accumulate([count for _, count in speech_chunk_counts]))[:-1]
+    current_speech_id = None
+    current_probs: list[np.ndarray] = []
 
-    probs_in_speech = np.concatenate(probs_list, axis=0)
-    probs_split = np.split(probs_in_speech, split_indices, axis=0)
-    unique_speech_ids = dict.fromkeys(speech_ids).keys()  # Preserves order
+    speech_index = 0
+    for batch_probs in probs_list:
+        batch_size = int(batch_probs.shape[0])
+        batch_speech_ids = speech_ids[speech_index : speech_index + batch_size]
+        speech_index += batch_size
 
-    assert len(speech_chunk_counts) == len(probs_split) == len(set(unique_speech_ids))
-    for speech_id, probs in zip(unique_speech_ids, probs_split):
-        yield speech_id, probs
+        for row_index, speech_id in enumerate(batch_speech_ids):
+            if current_speech_id is None:
+                current_speech_id = speech_id
+
+            if speech_id != current_speech_id:
+                yield current_speech_id, np.concatenate(current_probs, axis=0)
+                current_speech_id = speech_id
+                current_probs = []
+
+            current_probs.append(batch_probs[row_index : row_index + 1])
+
+    if current_speech_id is not None and current_probs:
+        yield current_speech_id, np.concatenate(current_probs, axis=0)
